@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+@import "fumadocs-ui/css/black.css";
+@import "fumadocs-ui/css/preset.css";
+
+@theme {
+  --font-sans:
+    var(
+      --app-font-sans,
+      var(--font-satoshi),
+      ui-sans-serif,
+      system-ui,
+      sans-serif
+    ),
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display: var(--app-font-display, var(--font-sans));
+  --font-mono: var(
+    --app-font-mono,
+    "SF Mono",
+    "Fira Code",
+    "Fira Mono",
+    "Roboto Mono",
+    "Menlo",
+    "Monaco",
+    "Consolas",
+    "Liberation Mono",
+    monospace
+  );
+}
+
+:root,
+[data-theme="light"] {
+  --app-font-sans:
+    var(--font-satoshi), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --app-font-display: var(--app-font-sans);
+  --app-font-mono:
+    "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Menlo", "Monaco",
+    "Consolas", "Liberation Mono", monospace;
+  --app-ui-font-size: 16px;
+  --app-code-font-size: 12.5px;
+  --background: #fff;
+  --surface: #f9f9f9;
+  --accent: oklch(0% 0 0);
+  --accent-foreground: oklch(100% 0 0);
+  --default-hover: #f0f0f0;
+  --default: #f0f0f0;
+  --overlay: #f5f5f5;
+  --code-bg: #f5f5f5;
+  --code-border: #e5e5e5;
+  --syntax-background: var(--code-bg);
+  --syntax-foreground: #111111;
+  --syntax-ansi-black: #111827;
+  --syntax-ansi-red: #cf222e;
+  --syntax-ansi-green: #116329;
+  --syntax-ansi-yellow: #9a6700;
+  --syntax-ansi-blue: #0550ae;
+  --syntax-ansi-magenta: #8250df;
+  --syntax-ansi-cyan: #0f766e;
+  --syntax-ansi-white: #6e7781;
+  --syntax-ansi-bright-black: #6e7781;
+  --syntax-ansi-bright-red: #cf222e;
+  --syntax-ansi-bright-green: #116329;
+  --syntax-ansi-bright-yellow: #9a6700;
+  --syntax-ansi-bright-blue: #0550ae;
+  --syntax-ansi-bright-magenta: #8250df;
+  --syntax-ansi-bright-cyan: #0f766e;
+  --syntax-ansi-bright-white: #111111;
+  --syntax-token-link: #0969da;
+  --syntax-token-string: var(--hljs-string);
+  --syntax-token-comment: var(--hljs-comment);
+  --syntax-token-constant: var(--hljs-number);
+  --syntax-token-keyword: var(--hljs-keyword);
+  --syntax-token-parameter: var(--hljs-variable);
+  --syntax-token-function: var(--hljs-function);
+  --syntax-token-string-expression: var(--hljs-attr);
+  --syntax-token-punctuation: #57606a;
+  --syntax-token-inserted: #116329;
+  --syntax-token-deleted: #cf222e;
+  --syntax-token-changed: #0550ae;
+  --hljs-keyword: #cf222e;
+  --hljs-string: #0a3069;
+  --hljs-number: #0550ae;
+  --hljs-comment: #6e7781;
+  --hljs-function: #8250df;
+  --hljs-variable: #953800;
+  --hljs-type: #0550ae;
+  --hljs-attr: #116329;
+  --hljs-tag: #116329;
+  --hljs-literal: #0550ae;
+
+  --sileo-state-success: oklch(0.723 0.219 142.136);
+  --sileo-state-loading: oklch(0.556 0 0);
+  --sileo-state-error: oklch(0.637 0.237 25.331);
+  --sileo-state-warning: oklch(0.795 0.184 86.047);
+  --sileo-state-info: oklch(0.685 0.169 237.323);
+  --sileo-state-action: oklch(0.623 0.214 259.815);
+  --sileo-width: 350px;
+  --sileo-height: 40px;
+  --sileo-duration: 600ms;
+  --sileo-shadow: 0 18px 48px rgb(0 0 0 / 5%);
+}
+
+.dark,
+[data-theme="dark"] {
+  --background: #111;
+  --surface: #000;
+  --accent: oklch(100% 0 0);
+  --accent-foreground: oklch(0% 0 0);
+  --default-hover: #202020;
+  /* a lighter 111; */
+  --default: #181818;
+  --overlay: #1c1c1c;
+  --code-bg: #0d0d0d;
+  --code-border: #262626;
+  --syntax-background: var(--code-bg);
+  --syntax-foreground: #e5e5e5;
+  --syntax-ansi-black: #1a1a1a;
+  --syntax-ansi-red: #ff7b72;
+  --syntax-ansi-green: #7ee787;
+  --syntax-ansi-yellow: #e3b341;
+  --syntax-ansi-blue: #79c0ff;
+  --syntax-ansi-magenta: #d2a8ff;
+  --syntax-ansi-cyan: #39c5cf;
+  --syntax-ansi-white: #8b949e;
+  --syntax-ansi-bright-black: #8b949e;
+  --syntax-ansi-bright-red: #ff7b72;
+  --syntax-ansi-bright-green: #7ee787;
+  --syntax-ansi-bright-yellow: #e3b341;
+  --syntax-ansi-bright-blue: #79c0ff;
+  --syntax-ansi-bright-magenta: #d2a8ff;
+  --syntax-ansi-bright-cyan: #39c5cf;
+  --syntax-ansi-bright-white: #e5e5e5;
+  --syntax-token-link: #58a6ff;
+  --syntax-token-string: var(--hljs-string);
+  --syntax-token-comment: var(--hljs-comment);
+  --syntax-token-constant: var(--hljs-number);
+  --syntax-token-keyword: var(--hljs-keyword);
+  --syntax-token-parameter: var(--hljs-variable);
+  --syntax-token-function: var(--hljs-function);
+  --syntax-token-string-expression: var(--hljs-attr);
+  --syntax-token-punctuation: #c9d1d9;
+  --syntax-token-inserted: #7ee787;
+  --syntax-token-deleted: #ff7b72;
+  --syntax-token-changed: #79c0ff;
+  --hljs-keyword: #ff7b72;
+  --hljs-string: #a5d6ff;
+  --hljs-number: #79c0ff;
+  --hljs-comment: #8b949e;
+  --hljs-function: #d2a8ff;
+  --hljs-variable: #ffa657;
+  --hljs-type: #79c0ff;
+  --hljs-attr: #7ee787;
+  --hljs-tag: #7ee787;
+  --hljs-literal: #79c0ff;
+
+  --sileo-state-success: oklch(0.723 0.219 142.136);
+  --sileo-state-loading: oklch(0.72 0 0);
+  --sileo-state-error: oklch(0.637 0.237 25.331);
+  --sileo-state-warning: oklch(0.795 0.184 86.047);
+  --sileo-state-info: oklch(0.685 0.169 237.323);
+  --sileo-state-action: oklch(0.623 0.214 259.815);
+  --sileo-width: 350px;
+  --sileo-height: 40px;
+  --sileo-duration: 600ms;
+  --sileo-shadow: 0 18px 48px rgb(0 0 0 / 5%);
+}
+
+.mermaid-shell {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgb(39 39 42);
+  border-radius: 1rem;
+  background: rgb(9 9 11);
+}
+
+.mermaid-diagram {
+  min-width: fit-content;
+  padding: 1.5rem;
+}
+
+.mermaid-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mermaid-diagram svg text,
+.mermaid-diagram svg foreignObject {
+  font-family: inherit;
+}
+
+.mermaid-fallback {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid rgb(39 39 42);
+  border-radius: 1rem;
+  background: rgb(9 9 11);
+  padding: 1.5rem;
+}
+
+.doc-image {
+  margin: 1.75rem 0;
+}
+
+.doc-image-frame {
+  overflow: hidden;
+  border: 1px solid rgb(39 39 42);
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, rgb(24 24 27 / 0.98), rgb(9 9 11 / 0.98));
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.22);
+}
+
+.doc-image-element {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.doc-image-caption {
+  margin-top: 0.75rem;
+  color: rgb(161 161 170);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}

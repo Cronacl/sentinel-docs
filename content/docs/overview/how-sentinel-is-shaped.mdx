@@ -1,0 +1,41 @@
+---
+title: "How Sentinel is shaped"
+---
+
+Sentinel is built around a few pieces that stay in view while you work. The app is opinionated here. It would rather keep the whole task surface nearby than hide context behind mode switches.
+
+## The shell
+
+The shell stays around the task. The left sidebar holds workspaces and threads. The center pane is the active thread. The bottom panel is the terminal. The right sidebar is where diffs, PR state, browser tabs, and child threads show up.
+
+The thread is the center of the app, but it is not supposed to sit by itself. Most software tasks spill into a few other surfaces almost immediately. Sentinel keeps those surfaces close so the thread can stay the anchor instead of becoming a place you bounce in and out of.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/how-sentinel-is-shaped.webp"
+  alt="How Sentinel is shaped"
+  caption="The shell keeps the thread, repo surfaces, terminal, and side panels visible together so longer tasks do not fragment across separate tools."
+/>
+
+## The thread
+
+A thread is where the work happens.
+
+Messages live there, but so does the state around the task. Engine choice, model choice, mode, repo state, approvals, queued follow-ups, and plan state all travel with the thread. That is why a thread feels more like a work session than a transcript.
+
+## The workspace
+
+The workspace gives the thread a project to live in. Usually that means a local folder, and often it means a repo.
+
+Once that root path exists, Sentinel can inspect repo state, open terminals in the right place, work with branches and worktrees, and keep thread-level context tied to something real on disk. Without that root path, the app can still function, but a lot of the repo-aware behavior has nothing to lock onto.
+
+## The runtime around the model
+
+The app is doing more than passing messages to a model. It is also carrying tools, prompt context, memory, approvals, MCP state, integrations, repo checkpoints, and stream state around the run.
+
+That is most of what the Sentinel harness is for. It is the coordination layer that keeps the thread coherent while the runtime is active.
+
+## The general posture
+
+The app leans toward local, stateful work. You can see that in the desktop-first behavior, the local repo awareness, the local runtime support for Codex, Claude, and Copilot, the local backups and state, and the way thread history stays tied to actual project work.
+
+That posture makes the product narrower in some ways. It is not trying to be the lightest possible way to ask a model a question. It is trying to be a stable place to do longer, messier work without losing the thread.

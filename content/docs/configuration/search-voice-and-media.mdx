@@ -1,0 +1,94 @@
+---
+title: "Search, voice, images, and videos"
+---
+
+These settings cover the model-adjacent parts of the app.
+
+## Search
+
+Search has two layers:
+
+- search providers
+- search defaults
+
+Current search provider support includes:
+
+- Exa
+- SearXNG
+
+You can configure provider credentials and provider-specific settings, then choose:
+
+- the default provider
+- the default result count
+- the max result count
+
+There is also a separate general setting for batched web fetch, including whether it is enabled and how many URLs can be fetched together.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/settings-search.webp"
+  alt="Search settings"
+  caption="Search settings split provider credentials from the defaults that shape how web lookup behaves inside the app."
+/>
+
+## Voice
+
+Voice input is optional.
+
+The voice settings screen lets you:
+
+- enable or disable voice input
+- choose the transcription provider
+- choose the transcription model
+
+Voice availability depends on connected provider credentials. The supported transcription providers in the code are OpenAI, Groq, and Azure.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/settings-voice-settings.webp"
+  alt="Voice settings"
+  caption="Voice settings control whether transcription is available and which provider handles it."
+/>
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/composer-voice-input.webp"
+  alt="Voice input in the composer"
+  caption="Once voice is enabled, the composer can accept spoken input directly inside the normal thread flow."
+/>
+
+## Images
+
+Image generation has its own settings area.
+
+That layer is separate from normal chat providers and lets the user control:
+
+- default image provider
+- provider-specific image model selection
+- whether the provider is configured for image generation
+- custom model IDs where the provider supports them
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/settings-image-gen.webp"
+  alt="Image generation settings"
+  caption="Image generation settings stay separate from chat providers because their model and provider choices often differ."
+/>
+
+## Videos
+
+Video generation has its own settings area too.
+
+Videos have their own provider and model setup too.
+
+The video generation tool can also fan out across multiple providers in one run, within the limits the app sets for number of targets and total outputs.
+
+Generated video artifacts are written to temporary local storage and then served back through the app UI for playback.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/settings-video-gen.webp"
+  alt="Video generation settings"
+  caption="Video generation keeps its own provider and model controls because it runs through a different media pipeline."
+/>
+
+## Why the split exists
+
+These settings are split up on purpose.
+
+Chat, search, voice, images, and videos are related, but they are different systems in the app.

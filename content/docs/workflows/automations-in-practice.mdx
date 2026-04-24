@@ -1,0 +1,41 @@
+---
+title: "Automations"
+---
+
+Automations are recurring prompts that run inside Sentinel.
+
+They are tied to a workspace and create real automation runs with thread history behind them. That part matters. An automation run is not just a scheduled note. It is work the app actually performs in the same product surface as everything else.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/automations-in-practice.webp"
+  alt="Automations in practice"
+  caption="Automations are defined in one place, but each run still lands back in normal Sentinel work history."
+/>
+
+## What an automation includes
+
+An automation stores the title, prompt, workspace, chat engine, model ID, reasoning effort, status, schedule configuration, and next run time.
+
+Runs are stored separately and can link back to the thread created by that run. That means you can look at the automation as a definition and still inspect individual runs as actual work history.
+
+## Schedule types
+
+The app supports `hourly`, `daily`, `weekly`, `weekdays`, and `custom` schedules. Custom schedules use a cron expression.
+
+## Status
+
+Automations are created in `paused` state by default.
+
+From the automations UI you can create an automation, edit it, pause it, resume it, trigger it immediately, and inspect recent runs. That default paused state is sensible because scheduled work is one of those things you want to review before it starts firing on its own.
+
+## Workspace rules
+
+Automations need a valid workspace, and archived workspaces cannot be used for them.
+
+## Templates
+
+The automations screen includes built-in templates to help start common recurring tasks faster. They are just starting points, but they save a bit of setup for common cases.
+
+## Why people use them
+
+Automations are useful when the same prompt keeps coming back. You keep the workspace and runtime setup, and Sentinel keeps creating runs from there. It is a good fit for recurring checks, summaries, triage passes, and other routine work that should not depend on memory.

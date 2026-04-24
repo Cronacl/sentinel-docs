@@ -1,0 +1,11 @@
+{
+  "title": "Configuration",
+  "pages": [
+    "index",
+    "providers-and-models",
+    "search-voice-and-media",
+    "memory-security-and-data",
+    "integrations-and-mcp",
+    "skills"
+  ]
+}

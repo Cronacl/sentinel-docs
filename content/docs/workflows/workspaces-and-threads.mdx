@@ -1,0 +1,57 @@
+---
+title: "Workspaces and threads"
+---
+
+Workspaces and threads are the two core objects in Sentinel.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/workspaces-and-threads.webp"
+  alt="Workspaces and threads"
+  caption="The sidebar treats workspaces and threads as ongoing project structure, not just a flat history of chats."
+/>
+
+## Workspaces
+
+A workspace is usually a local project folder. It stores the basic identity for that project, the local root path, and a little management state like whether it is selected, archived, or using a permission override.
+
+That sounds small because it is. The workspace is not trying to do much on its own. Its real job is to give threads a stable project context. Once that root path points at something real, Sentinel has somewhere concrete to open terminals, inspect repo state, and anchor thread history.
+
+## Threads
+
+A thread is the main unit of work in the app.
+
+A thread stores the title, summary, engine, selected model, reasoning effort, mode, current status, message history, queued follow-ups, and whatever repo-related state the engine is carrying for that work.
+
+Threads can be pinned, renamed, archived, and reopened later. More importantly, a thread is not just a transcript. It is a container for ongoing work. That is why Sentinel can keep so much state around it without feeling like a note app that accidentally learned how to run commands.
+
+## How thread lists work
+
+Sentinel can organize threads by workspace or chronologically, and it can sort them by created time or updated time. Pinned state is tracked separately, and linked pull request state can show up on thread entries too.
+
+That sounds like a small UI detail, but it changes how the app feels once you have enough threads in flight. The list stops being a simple history view and starts becoming part of how you manage work.
+
+## Starting a new thread
+
+The home screen is already a draft thread screen.
+
+The app opens into a draft thread flow where you choose the active workspace, create one if needed, pick an engine and model, decide between `chat` or `plan`, and send the first message. At that point the draft becomes a persistent thread.
+
+This part is deliberately simple. Sentinel does not make you create an empty thread and configure it later. The setup happens as part of starting real work.
+
+## Thread state over time
+
+Sentinel keeps more thread state than a basic chat app. That includes message history, queued follow-ups, repo checkpoint pointers, linked PR data, branch and worktree data, and plan documents and tasks when the thread is in plan mode.
+
+That is why a thread feels closer to a work session than a plain conversation. You are not just reopening text. You are reopening context.
+
+## Thread switching
+
+Switching threads is repo-aware.
+
+If moving from one thread to another would cause trouble because of dirty repo state, Sentinel can inspect that switch first and ask how to handle it. The two handoff strategies in the repo layer are migration or stashing.
+
+This is part of why threads are treated like repo-linked work contexts. Switching between them is not the same thing as clicking between unrelated chats.
+
+## Good next reads
+
+The next pages that usually help are [Chat and plan mode](/docs/workflows/chat-and-plan-mode), [Repo workflow](/docs/workflows/repo-workflow), and [Approvals and sub-agents](/docs/workflows/approvals-and-subagents).

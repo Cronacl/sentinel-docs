@@ -1,0 +1,13 @@
+{
+  "title": "Sentinel Docs",
+  "pages": [
+    "index",
+    "overview",
+    "getting-started",
+    "workflows",
+    "configuration",
+    "engines-and-runtime",
+    "product-decisions",
+    "reference"
+  ]
+}

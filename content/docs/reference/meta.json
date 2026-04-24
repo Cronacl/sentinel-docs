@@ -1,0 +1,13 @@
+{
+  "title": "Reference",
+  "pages": [
+    "index",
+    "engines-providers-and-integrations",
+    "environment-and-build",
+    "glossary",
+    "release-and-signing",
+    "release-process",
+    "macos-signing",
+    "desktop-platform-smoke-checklist"
+  ]
+}

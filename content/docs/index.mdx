@@ -1,0 +1,120 @@
+---
+title: "Sentinel Docs"
+---
+
+import {
+  AiIdeaIcon,
+  BookOpen01Icon,
+  ComputerTerminal01Icon,
+  Rocket01Icon,
+  Settings03Icon,
+  WorkflowCircle03Icon,
+} from "@hugeicons/core-free-icons";
+
+Sentinel is a desktop app for working with AI inside a real codebase.
+
+<img
+  width="128"
+  height="128"
+  alt="Sentinel app icon"
+  src="/icon.png"
+  style={{ display: "block", margin: "0 auto" }}
+/>
+
+It helps to read the product as a work surface, not as a chat app with a few extra panels around it.
+
+The app assumes there is a real project under the work. It assumes repo state matters. It assumes you might need a terminal, a diff, a browser tab, a checkpoint, or a follow-up message while a run is still going. A lot of the product only makes sense from that angle.
+
+These docs follow the same shape. The early pages explain what the product is trying to do and why the app is arranged the way it is. After that, the docs move into setup, day-to-day workflows, runtime detail, and reference material.
+
+<Cards>
+  <Card
+    href="/docs/overview"
+    title="Overview"
+    icon={<Icon icon={AiIdeaIcon} />}
+    description="Product model, core concepts, and the shape of the app."
+  />
+  <Card
+    href="/docs/getting-started"
+    title="Getting started"
+    icon={<Icon icon={Rocket01Icon} />}
+    description="Install Sentinel, launch the desktop app, and start the first thread."
+  />
+  <Card
+    href="/docs/workflows"
+    title="Workflows"
+    icon={<Icon icon={WorkflowCircle03Icon} />}
+    description="Chat, plan mode, approvals, repo work, terminal, and browser flows."
+  />
+  <Card
+    href="/docs/configuration"
+    title="Configuration"
+    icon={<Icon icon={Settings03Icon} />}
+    description="Providers, models, integrations, memory, and runtime options."
+  />
+  <Card
+    href="/docs/engines-and-runtime"
+    title="Engines and runtime"
+    icon={<Icon icon={ComputerTerminal01Icon} />}
+    description="Sentinel engine internals, context compaction, and local runtime details for Codex, Claude, and Copilot."
+  />
+  <Card
+      href="/docs/reference"
+    title="Reference"
+    icon={<Icon icon={BookOpen01Icon} />}
+    description="Reference material, release notes, signing, and build guidance."
+  />
+</Cards>
+
+## If you're new here
+
+Start with [What Sentinel is](/docs/overview/what-is-sentinel). That page gives the shortest honest read on what the app is for.
+
+Then read [How Sentinel is shaped](/docs/overview/how-sentinel-is-shaped) and [Workspaces and threads](/docs/workflows/workspaces-and-threads). Those two explain the product model the rest of the app leans on.
+
+If you already know you want to try it, jump to [Quickstart](/docs/getting-started/quickstart). That gets you from install to the first real thread without much detour.
+
+## The sections
+
+### Overview
+
+Overview is where the product model lives. These pages explain what Sentinel is trying to hold together and why the UI looks the way it does.
+
+### Getting started
+
+Getting started is about the first hour with the app. It covers local setup, first launch, and the first useful workspace and thread.
+
+### Workflows
+
+Workflows covers the part that matters once you are past setup. This is where thread behavior, plan mode, repo handoff, approvals, terminal use, browser use, and automations start to fit together.
+
+### Configuration
+
+Configuration explains what can be connected, what can be turned on or off, and what the app stores. Provider setup, model setup, integrations, MCP servers, memory, and media features all live there.
+
+### Engines and runtime
+
+Engines and runtime is the lower-level section. It is for people who want to understand how Sentinel carries state around a run and how Codex, Claude, and Copilot sit inside the app shell.
+
+### Product decisions
+
+Product decisions is the reasoning section. These pages are less about usage and more about why the product ended up with this shape.
+
+### Reference
+
+Reference is the compact lookup section. It keeps the tables, environment details, and release notes straight without turning everything into a tutorial.
+
+## A good reading order
+
+1. [What Sentinel is](/docs/overview/what-is-sentinel)
+2. [How Sentinel is shaped](/docs/overview/how-sentinel-is-shaped)
+3. [Quickstart](/docs/getting-started/quickstart)
+4. [Workspaces and threads](/docs/workflows/workspaces-and-threads)
+5. [Chat and plan mode](/docs/workflows/chat-and-plan-mode)
+6. [Repo workflow](/docs/workflows/repo-workflow)
+7. [Providers and models](/docs/configuration/providers-and-models)
+8. [Sentinel engine](/docs/engines-and-runtime/sentinel-engine)
+
+## Other docs in the repo
+
+There are also a few practical reference pages that are less about product behavior and more about shipping and maintaining the app: [Release process](/docs/reference/release-process), [macOS signing](/docs/reference/macos-signing), and [Desktop platform smoke checklist](/docs/reference/desktop-platform-smoke-checklist).

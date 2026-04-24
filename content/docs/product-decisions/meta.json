@@ -1,0 +1,12 @@
+{
+  "title": "Product decisions",
+  "pages": [
+    "index",
+    "why-workspaces-and-threads",
+    "why-plan-mode",
+    "why-approvals",
+    "why-automations",
+    "why-local-first",
+    "why-separate-extension-systems"
+  ]
+}

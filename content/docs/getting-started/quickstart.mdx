@@ -1,0 +1,65 @@
+---
+title: "Quickstart"
+---
+
+This is the shortest path to a working local Sentinel setup.
+
+The goal here is not to tour the whole product. It is to get the app running, point it at a real project, and start one thread that does something useful.
+
+## 1. Install dependencies
+
+Sentinel uses Bun.
+
+```bash
+bun install
+```
+
+## 2. Create a local env file
+
+```bash
+cp .env.example .env
+```
+
+You can leave `ENCRYPTION_KEY` empty. Sentinel will generate one on first desktop launch.
+
+## 3. Start the desktop app
+
+```bash
+bun run dev:desktop
+```
+
+The app runs at `http://localhost:3232`.
+
+At this point, do not worry about every provider setting or runtime option. You can come back for those once the app is open and attached to a real workspace.
+
+## 4. Add a workspace
+
+Once the app is open, add a workspace, point it at a local project folder, and select it in the sidebar.
+
+This is the step that makes Sentinel feel real. A workspace gives the thread an actual project root, which means the repo layer, terminal, file access, and the rest of the local workflow have something to attach to.
+
+## 5. Start a thread
+
+From the home screen, start a new thread, pick an engine and model, choose chat mode or plan mode, and send the first message.
+
+This is usually where the app starts to make sense. Before that, Sentinel is mostly setup. After that, it becomes a work surface.
+
+## 6. Connect providers if needed
+
+If you want hosted models, open Settings and configure providers and models there. Voice and search settings live in the same area.
+
+If you want local runtime options, configure Codex or Claude in the app as well. You do not need to do that first unless those are the runtimes you already plan to use.
+
+## 7. Use the built-in workflow
+
+Inside a thread you can read files, attach documents, ask for a plan, approve tool calls, run commands in the terminal, inspect diffs, and commit or push changes.
+
+That mix is the point of the product. The thread is close to the repo, the runtime, and the supporting tools instead of being isolated from them.
+
+## A few things worth knowing early
+
+Sentinel is desktop-first. The app is most useful when a workspace points at a real local repo. Some features stay quiet until the workspace has a valid root path. Memory is optional and off by default.
+
+## Next pages
+
+When you finish this page, the next useful reads are [First workspace and thread](/docs/getting-started/first-workspace-and-thread), [Workspaces and threads](/docs/workflows/workspaces-and-threads), [Repo workflow](/docs/workflows/repo-workflow), and [Configuration](/docs/configuration).

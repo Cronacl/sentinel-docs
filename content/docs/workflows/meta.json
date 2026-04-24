@@ -1,0 +1,12 @@
+{
+  "title": "Workflows",
+  "pages": [
+    "index",
+    "workspaces-and-threads",
+    "chat-and-plan-mode",
+    "repo-workflow",
+    "terminal-and-browser",
+    "approvals-and-subagents",
+    "automations-in-practice"
+  ]
+}

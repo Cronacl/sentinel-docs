@@ -1,0 +1,59 @@
+---
+title: "What Sentinel Is"
+---
+
+Sentinel is a desktop app for doing software work with AI inside a local project.
+
+The easiest way to frame it is this: Sentinel treats the thread as a piece of ongoing work, not as a disposable prompt history. That one choice explains most of the product. It explains why workspaces exist, why repo state is part of the loop, why the terminal and browser are built in, and why the app stores things like approvals, checkpoints, and runtime state instead of just streaming text back from a model.
+
+A few ideas keep showing up across the product. A workspace is a real local folder. A thread is the main unit of work. Repo state matters because code work is not just text generation. Longer tasks need more surrounding structure than a plain prompt box can hold.
+
+<DocImage
+  src="https://storage.googleapis.com/cronacl-public-assets/sentinel/what-is-sentinel.webp"
+  alt="What Sentinel is overview screen"
+  caption="Sentinel keeps the active thread surrounded by the rest of the software-work surface instead of isolating it in a single chat pane."
+/>
+
+## The basic shape
+
+A workspace points at a local project directory. Inside that workspace, you start threads. Those threads can run in chat mode or plan mode. While you work, Sentinel keeps track of the state around the thread: model choice, engine choice, repo state, approvals, follow-ups, checkpoints, and whatever runtime-specific state needs to survive from one run to the next.
+
+The shell stays around that work. The left sidebar holds workspaces and threads. The center pane is the active thread. The bottom panel is the terminal. The right sidebar holds diffs, PR context, browser tabs, and sub-agent views. That sounds like a lot until you spend time on a longer task and realize most of those surfaces show up anyway.
+
+## What Sentinel includes
+
+There are a lot of moving parts in the product: workspaces, persistent threads, chat mode, plan mode, repo-aware actions, a built-in terminal and browser, approvals, multiple engines and providers, voice input, memory, automations, skills, MCP servers, and integrations. That list is long, but it is not random. Those pieces exist because longer software tasks tend to pull in all of them sooner or later.
+
+## Engines
+
+Sentinel supports four engines: `sentinel`, `codex`, `claude`, and `copilot`.
+
+`sentinel` is the built-in app-managed engine. It handles the app side of the workflow around the model, including tool routing, plan mode state, approvals, memory retrieval, integrations, and repo checkpoints.
+
+`codex`, `claude`, and `copilot` are local runtime options that still run inside the Sentinel shell. They have their own runtime behavior, but Sentinel still owns the surrounding thread, the workspace context, and the rest of the app state.
+
+## The Sentinel harness
+
+The `sentinel` engine is the app harness.
+
+This is the part that holds the thread together while a run is happening. It is where the app wires in workspace discovery, prompt context, tool routing, MCP and integration loading, memory retrieval, plan state, repo checkpoints, queued follow-ups, thread status, and streamed events.
+
+This is one of the heavier parts of the product because it is doing most of the coordination work. It is the layer that turns a model call into a piece of structured work inside the app.
+
+## Claude Code, Codex, and GitHub Copilot
+
+`claude`, `codex`, and `copilot` are separate runtimes with their own thread state inside Sentinel.
+
+For Codex, the app tracks things like the Codex thread ID, sandbox mode, approval policy, reasoning effort, and working directory. For Claude, it tracks the Claude session ID, permission mode, model, and working directory. For Copilot, it tracks the Copilot session ID, reasoning effort, model, and working directory.
+
+That matters because engine choice changes more than the label in the model picker. It changes what kind of runtime is attached to the thread and what state has to survive while you keep working.
+
+Sentinel still owns the app shell around both of them. The thread list, repo panels, approvals, settings, and workspace state stay in Sentinel.
+
+## Where it fits
+
+Sentinel makes the most sense when the work is tied to a real repo and takes more than a few prompts.
+
+It helps most when you want threads that keep project context over time, when diffs and approvals are part of the normal loop, when you want a built-in terminal and browser nearby, or when recurring tasks and saved memory should stay attached to a workspace.
+
+If you only want a fast chat window, Sentinel is probably more app than you need. It is heavier on purpose.
