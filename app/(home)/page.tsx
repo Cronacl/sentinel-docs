@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import HomeCTA from "@/components/home-cta";
+import HomeFeatures from "@/components/home-features";
 import HomeHero from "@/components/home-hero";
+import HomeProviders from "@/components/home-providers";
 
 export const metadata: Metadata = {
   title: "Sentinel — AI-powered software work",
@@ -8,5 +11,12 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomeHero />;
+  return (
+    <>
+      <HomeHero />
+      <HomeFeatures />
+      <HomeProviders />
+      <HomeCTA />
+    </>
+  );
 }

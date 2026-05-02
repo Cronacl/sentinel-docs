@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HomeFooter() {
   return (
-    <footer>
+    <footer className="border-t">
       <div className="mx-auto flex max-w-[980px] items-center justify-between px-6 py-6 text-xs text-fd-muted-foreground">
         <span>&copy; {new Date().getFullYear()} Cronacl</span>
         <div className="flex items-center gap-5">
