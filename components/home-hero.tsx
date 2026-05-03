@@ -10,8 +10,10 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import Icon from "@/components/icon";
 
-const SCREENSHOT_URL =
-  "https://storage.googleapis.com/cronacl-public-assets/sentinel/repo-workflow.webp";
+const SCREENSHOT_DARK =
+  "https://storage.googleapis.com/cronacl-public-assets/sentinel/sentinel-dark.webp";
+const SCREENSHOT_LIGHT =
+  "https://storage.googleapis.com/cronacl-public-assets/sentinel/sentinel-light.webp";
 
 const PLATFORMS = [
   { name: "macOS", icon: AppleIcon },
@@ -80,11 +82,18 @@ export default function HomeHero() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+        className="mt-14"
       >
         <img
-          src={SCREENSHOT_URL}
+          src={SCREENSHOT_LIGHT}
           alt="Sentinel desktop app showing a project workflow"
-          className="mt-14 block w-full rounded-lg border shadow-sm"
+          className="block w-full rounded-lg border shadow-sm dark:hidden"
+          loading="eager"
+        />
+        <img
+          src={SCREENSHOT_DARK}
+          alt="Sentinel desktop app showing a project workflow"
+          className="hidden w-full rounded-lg border shadow-sm dark:block"
           loading="eager"
         />
       </motion.div>
