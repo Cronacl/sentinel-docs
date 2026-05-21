@@ -1,12 +1,17 @@
+import { ArrowUpRight01Icon, Download04Icon } from "@hugeicons/core-free-icons";
+import type { IconSvgElement } from "@hugeicons/react";
+import type { ComponentType, SVGProps } from "react";
+import Icon from "@/components/icon";
+import {
+  AppleLogo,
+  WindowsLogo,
+  TerminalLogo,
+} from "@/components/brand-icons";
 import {
   AppleIcon,
-  ArrowUpRight01Icon,
   CommandLineIcon,
-  Download04Icon,
   WindowsOldIcon,
 } from "@hugeicons/core-free-icons";
-import type { IconSvgElement } from "@hugeicons/react";
-import Icon from "@/components/icon";
 
 export type DownloadPlatform = {
   name: string;
@@ -29,6 +34,18 @@ export const PLATFORM_ICONS = {
   windows: WindowsOldIcon,
 } satisfies Record<string, IconSvgElement>;
 
+const BRAND_ICON_MAP: Record<string, ComponentType<SVGProps<SVGSVGElement> & { size?: number }>> = {
+  macOS: AppleLogo,
+  Windows: WindowsLogo,
+};
+
+function getBrandIcon(name: string) {
+  if (name.toLowerCase().includes("macos")) return AppleLogo;
+  if (name.toLowerCase().includes("windows")) return WindowsLogo;
+  if (name.toLowerCase().includes("linux")) return TerminalLogo;
+  return TerminalLogo;
+}
+
 export default function DownloadContent({
   platforms,
   releaseUrl,
@@ -36,63 +53,72 @@ export default function DownloadContent({
   publishedAt,
 }: DownloadContentProps) {
   const publishedLabel = publishedAt
-    ? new Intl.DateTimeFormat("en", {
-        dateStyle: "medium",
-      }).format(new Date(publishedAt))
+    ? new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(
+        new Date(publishedAt),
+      )
     : null;
 
   return (
-    <div className="mx-auto max-w-[980px] min-h-[calc(100vh-10rem)] px-6 pt-20 pb-24">
-      <h1 className="text-3xl font-medium">Download</h1>
-      <p className="mt-2 text-sm text-fd-muted-foreground">
-        Direct installers from the latest GitHub release.
-      </p>
-
-      {version || publishedLabel ? (
-        <p className="mt-1 text-xs text-fd-muted-foreground">
-          {version ? `Latest release: ${version}` : "Latest release"}
-          {publishedLabel ? ` • Published ${publishedLabel}` : null}
-        </p>
-      ) : null}
-
-      <div className="mt-10 grid gap-4 sm:grid-cols-3">
-        {platforms.map((platform) => (
-          <a
-            key={platform.name}
-            href={platform.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-4 rounded-3xl border border-separate bg-background px-6 py-8 hover:bg-surface dark:bg-background/20 dark:hover:bg-background/80"
-          >
-            <Icon icon={platform.icon} size={24} strokeWidth={1.4} />
-            <div className="text-center">
-              <p className="text-sm font-medium">{platform.name}</p>
-              <p className="mt-1 text-xs text-fd-muted-foreground">
-                {platform.detail}
-              </p>
-              {platform.fileName ? (
-                <p className="mt-2 text-[11px] text-fd-muted-foreground/80">
-                  {platform.fileName}
-                </p>
-              ) : null}
-            </div>
-            <span className="inline-flex items-center gap-1.5 text-xs text-fd-muted-foreground">
-              <Icon icon={Download04Icon} size={13} strokeWidth={1.7} />
-              Download
-            </span>
-          </a>
-        ))}
+    <div className="mx-auto max-w-[960px] min-h-[calc(100vh-7rem)] px-6 pt-16 pb-10 sm:pt-20">
+      <div className="flex items-baseline justify-between mb-6">
+        <div>
+          <h1 className="text-lg font-medium sm:text-xl">
+            Download Sentinel
+          </h1>
+          <p className="mt-0.5 text-[12px] text-fd-muted-foreground">
+            Installers from the latest GitHub release.
+          </p>
+        </div>
+        {version || publishedLabel ? (
+          <p className="text-[10px] text-fd-muted-foreground/35">
+            {version ?? "Latest"}
+            {publishedLabel ? ` · ${publishedLabel}` : null}
+          </p>
+        ) : null}
       </div>
 
-      <div className="mt-8">
+      <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+        {platforms.map((platform) => {
+          const BrandIcon = getBrandIcon(platform.name);
+          return (
+            <a
+              key={platform.name}
+              href={platform.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2.5 rounded-lg border border-fd-border bg-fd-card px-3 py-2.5 transition-colors hover:bg-fd-accent"
+            >
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-fd-border bg-fd-background">
+                <BrandIcon size={13} className="text-fd-muted-foreground" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[12px] font-medium">
+                  {platform.name}
+                </p>
+                <p className="text-[10px] text-fd-muted-foreground">
+                  {platform.detail}
+                </p>
+              </div>
+              <Icon
+                icon={Download04Icon}
+                size={13}
+                strokeWidth={1.5}
+                className="shrink-0 text-fd-muted-foreground/25 transition-colors group-hover:text-fd-foreground"
+              />
+            </a>
+          );
+        })}
+      </div>
+
+      <div className="mt-4">
         <a
           href={releaseUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-fd-muted-foreground hover:text-fd-foreground"
+          className="inline-flex items-center gap-1 text-[11px] text-fd-muted-foreground/35 transition-colors hover:text-fd-muted-foreground"
         >
-          View all releases on GitHub
-          <Icon icon={ArrowUpRight01Icon} size={12} strokeWidth={1.8} />
+          All releases on GitHub
+          <Icon icon={ArrowUpRight01Icon} size={10} strokeWidth={1.8} />
         </a>
       </div>
     </div>
