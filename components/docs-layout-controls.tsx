@@ -8,7 +8,7 @@ import {
   Search01Icon,
   Sun01Icon,
 } from "@hugeicons/core-free-icons";
-import { useI18n } from "fumadocs-ui/contexts/i18n";
+import { useTranslations } from "@fuma-translate/react";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import type {
@@ -18,12 +18,14 @@ import type {
 import type { ThemeSwitchProps } from "fumadocs-ui/layouts/shared/slots/theme-switch";
 import { useTheme } from "next-themes";
 import type { ComponentProps, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Icon from "@/components/icon";
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
+
+const subscribeNoop = () => () => {};
 
 function ThemeIconButton({
   active,
@@ -72,7 +74,8 @@ export function DocsSidebarTrigger({
 export function DocsSearchTrigger({
   hideIfDisabled,
   size = "icon-sm",
-  color = "ghost",
+  color,
+  variant = color ?? "ghost",
   className,
   ...props
 }: SearchTriggerProps) {
@@ -83,7 +86,7 @@ export function DocsSearchTrigger({
   return (
     <button
       aria-label="Open Search"
-      className={cx(buttonVariants({ size, color }), className)}
+      className={cx(buttonVariants({ size, variant }), className)}
       data-search=""
       onClick={() => setOpenSearch(true)}
       type="button"
@@ -100,7 +103,7 @@ export function DocsFullSearchTrigger({
   ...props
 }: FullSearchTriggerProps) {
   const { enabled, hotKey, setOpenSearch } = useSearchContext();
-  const { text } = useI18n();
+  const t = useTranslations({ note: "search trigger" });
 
   if (hideIfDisabled && !enabled) return null;
 
@@ -116,7 +119,7 @@ export function DocsFullSearchTrigger({
       {...props}
     >
       <Icon icon={Search01Icon} size={16} strokeWidth={1.7} />
-      {text.search}
+      {t("Search")}
       <div className="ms-auto inline-flex gap-0.5">
         {hotKey.map((key, index) => (
           <kbd className="rounded-md border bg-fd-background px-1.5" key={index}>
@@ -134,11 +137,11 @@ export function DocsThemeSwitch({
   ...props
 }: ThemeSwitchProps) {
   const { resolvedTheme, setTheme, theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  );
 
   const currentResolvedTheme = mounted ? resolvedTheme : null;
   const currentTheme = mounted ? theme : null;
