@@ -90,7 +90,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full">
-        <RootProvider theme={{ defaultTheme: "dark" }}>
+        <RootProvider theme={{ defaultTheme: "dark", hotKey: false }}>
           {children}
         </RootProvider>
       </body>
