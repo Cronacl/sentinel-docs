@@ -14,22 +14,26 @@ They let the app pull in extra capability packs without stuffing every specializ
 
 ## What skills can target
 
-The skills UI supports three install targets:
+The skills UI supports six install targets:
 
-- `sentinel`
-- `claude`
-- `codex`
+| Target     | Global folder                | Workspace folder   |
+| ---------- | ---------------------------- | ------------------ |
+| `sentinel` | `~/.sentinel/skills`         | `.sentinel/skills` |
+| `claude`   | `~/.claude/skills`           | `.claude/skills`   |
+| `codex`    | `~/.codex/skills`            | Global only        |
+| `copilot`  | `~/.copilot/skills`          | `.github/skills`   |
+| `cursor`   | `~/.cursor/skills`           | `.cursor/skills`   |
+| `opencode` | `~/.config/opencode/skills`  | `.opencode/skills` |
 
 That matters because a skill can live in different directories depending on the target runtime.
 
 ## Scope
 
-For local Sentinel and Claude skills, installs can be:
+Installs can be global or workspace-scoped. Codex skills are global only.
 
-- global
-- workspace-scoped
+When the engine instance you picked has its own home directory (`CODEX_HOME`, `CLAUDE_CONFIG_DIR`, or `COPILOT_HOME`), global skills go into `skills` inside that home instead of the default folder above.
 
-Codex skills are global only.
+Grok Build and Pi manage their own skills; Sentinel does not install skills for them.
 
 ## Sources
 

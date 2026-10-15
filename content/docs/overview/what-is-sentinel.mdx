@@ -26,11 +26,11 @@ There are a lot of moving parts in the product: workspaces, persistent threads, 
 
 ## Engines
 
-Sentinel supports four engines: `sentinel`, `codex`, `claude`, and `copilot`.
+Sentinel has its own engine, `sentinel`, and can run threads on nine kinds of local coding agents: Claude, Codex, Copilot, Cursor, OpenCode, Grok Build, Antigravity, Pi, and agents from the ACP Registry such as Gemini CLI, Devin, and Mistral Vibe.
 
 `sentinel` is the built-in app-managed engine. It handles the app side of the workflow around the model, including tool routing, plan mode state, approvals, memory retrieval, integrations, and repo checkpoints.
 
-`codex`, `claude`, and `copilot` are local runtime options that still run inside the Sentinel shell. They have their own runtime behavior, but Sentinel still owns the surrounding thread, the workspace context, and the rest of the app state.
+The agents are local runtimes that still run inside the Sentinel shell. They have their own runtime behavior, accounts, and models, but Sentinel still owns the surrounding thread, the workspace context, and the rest of the app state. Sentinel can also install, update, and sign in to them, and run several instances of the same agent side by side.
 
 ## The Sentinel harness
 
@@ -40,15 +40,15 @@ This is the part that holds the thread together while a run is happening. It is 
 
 This is one of the heavier parts of the product because it is doing most of the coordination work. It is the layer that turns a model call into a piece of structured work inside the app.
 
-## Claude Code, Codex, and GitHub Copilot
+## The agents
 
-`claude`, `codex`, and `copilot` are separate runtimes with their own thread state inside Sentinel.
+Each agent is a separate runtime with its own thread state inside Sentinel.
 
-For Codex, the app tracks things like the Codex thread ID, sandbox mode, approval policy, reasoning effort, and working directory. For Claude, it tracks the Claude session ID, permission mode, model, and working directory. For Copilot, it tracks the Copilot session ID, reasoning effort, model, and working directory.
+For Codex, the app tracks things like the Codex thread ID, sandbox mode, approval policy, reasoning effort, and working directory. For Claude, it tracks the Claude session ID, permission mode, model, and working directory. For Cursor, Grok Build, Antigravity, and registry agents, it tracks the ACP session, mode, and model. The [agents](/docs/engines-and-runtime/agents) page has the full list.
 
 That matters because engine choice changes more than the label in the model picker. It changes what kind of runtime is attached to the thread and what state has to survive while you keep working.
 
-Sentinel still owns the app shell around both of them. The thread list, repo panels, approvals, settings, and workspace state stay in Sentinel.
+Sentinel still owns the app shell around all of them. The thread list, repo panels, approvals, settings, and workspace state stay in Sentinel.
 
 ## Where it fits
 

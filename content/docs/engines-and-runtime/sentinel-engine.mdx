@@ -113,16 +113,16 @@ That gives the app a place to start checkpoint capture, update checkpoint pointe
 
 `sentinel` is always available because it is the app harness.
 
-`codex`, `claude`, and `copilot` use local runtimes, but Sentinel still keeps the shell and thread model around them.
+The [agents](/docs/engines-and-runtime/agents) (Codex, Claude, Copilot, Cursor, OpenCode, Grok Build, Antigravity, Pi, and ACP Registry agents) use local runtimes, but Sentinel still keeps the shell and thread model around them.
 
 So there are really two meanings packed into the name:
 
 `sentinel` is the built-in engine choice, and it is also the outer harness that keeps the whole product coherent.
 
-That overlap is deliberate. The same layer that runs the built-in engine is also the layer that keeps Codex, Claude, and Copilot threads attached to the rest of the app.
+That overlap is deliberate. The same layer that runs the built-in engine is also the layer that keeps agent threads attached to the rest of the app.
 
 ## Code references
 
 - [`run-thread-chat.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/runtime/run-thread-chat.ts)
-- [`session-server.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/session-server.ts)
+- [`session/server.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/session/server.ts)
 - [`types.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/types.ts)

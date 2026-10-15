@@ -4,12 +4,26 @@ title: "Environment and build"
 
 ## Environment variables
 
-| Variable              | Required | Description                               |
-| --------------------- | -------- | ----------------------------------------- |
-| `ENCRYPTION_KEY`      | No       | Generated on first launch if omitted      |
-| `SENTINEL_DB_PATH`    | No       | Custom path for the local SQLite database |
-| `SENTINEL_STATE_PATH` | No       | Custom path for app state                 |
-| `SENTINEL_APP_URL`    | No       | Override the default app URL              |
+| Variable                 | Required | Description                                                                                     |
+| ------------------------ | -------- | ----------------------------------------------------------------------------------------------- |
+| `ENCRYPTION_KEY`         | No       | Generated on first launch if omitted                                                            |
+| `SENTINEL_DB_PATH`       | No       | Custom path for the local SQLite database                                                       |
+| `SENTINEL_STATE_PATH`    | No       | Custom path for app state, including engine state and Sentinel-installed agents                 |
+| `SENTINEL_APP_URL`       | No       | Override the default app URL                                                                    |
+| `SENTINEL_LINUX_SANDBOX` | No       | Set to `true` to force Electron's Chromium sandbox when launching the Linux executable directly |
+
+## Engine variables
+
+| Variable                                | Description                                                         |
+| --------------------------------------- | ------------------------------------------------------------------- |
+| `SENTINEL_DISABLE_REMOTE_MANIFEST`      | Use only the engine manifest bundled with the app                   |
+| `SENTINEL_DISABLE_ENGINE_UPDATE_CHECKS` | Never look up the newest release of installed agent CLIs            |
+| `SENTINEL_CLAUDE_PATH`, `SENTINEL_CODEX_PATH`, `SENTINEL_COPILOT_PATH`, `SENTINEL_CURSOR_PATH`, `SENTINEL_OPENCODE_PATH`, `SENTINEL_PI_PATH`, `SENTINEL_ANTIGRAVITY_PATH` | Binary for that agent's default instance, when its binary path is empty |
+
+## Requirements
+
+- Release builds: macOS 13 or later, 64-bit Windows 10 or later, or Linux with glibc 2.34 and libstdc++ from GCC 11 or newer
+- Development: Bun 1.4 or later and Node.js 24 LTS
 
 ## Local development
 

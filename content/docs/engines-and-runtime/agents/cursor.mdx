@@ -1,0 +1,56 @@
+---
+title: "Cursor"
+description: "Cursor Agent inside Sentinel, on the shared ACP engine."
+---
+
+Sentinel can run a thread on the Cursor Agent CLI.
+
+It talks to Cursor through Cursor Agent's own ACP server, on the same ACP engine that carries Grok Build, Antigravity, and registry agents. Cursor keeps its interactive approvals, so edits, deletes, shell commands, MCP tools, and web requests that Cursor's own allowlist did not approve come back to Sentinel as approvals.
+
+## Setup
+
+| What            | Details                                                                 |
+| --------------- | ----------------------------------------------------------------------- |
+| Install         | `curl -fsS https://cursor.com/install \| bash` (macOS and Linux)        |
+| Binary          | `agent`, or `cursor-agent`                                              |
+| Update          | The CLI's own `update` command, for an install made by the script       |
+| Recommended     | Cursor Agent 2026.5.9 or newer                                          |
+| Home variable   | None; instances share the CLI's sign-in and settings                    |
+| Binary override | The instance's binary path, or `SENTINEL_CURSOR_PATH` for the default instance |
+
+## Sign-in
+
+- **Sign in with Cursor** runs `agent login` in a terminal inside the Cursor card; approve the sign-in in your browser.
+- **Use an API key** stores the key encrypted on the instance as `CURSOR_API_KEY`.
+
+Because Cursor has no home variable, an API key is the way to give a second instance a different account.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Accept edits*, and *Full*.
+- **Plan mode**: Cursor's own plan mode.
+- **Questions** Cursor asks become question cards in the thread.
+- **Models**: Cursor lists its models with their parameters, such as reasoning level, and the composer offers them.
+- **Images** can be attached to a prompt.
+- **MCP servers** from Settings are passed to Cursor.
+- **Slash commands** Cursor reports appear in the composer's slash menu.
+
+## Usage limits
+
+Cursor's plan usage comes from the Cursor dashboard. Sentinel finds the login in `CURSOR_AUTH_TOKEN` or the CLI's auth file.
+
+On macOS, the CLI can keep its login in the Keychain instead. Sentinel reads it only when you ask from the Cursor card, and macOS asks you to allow it first. The token stays in memory and is only sent to Cursor.
+
+## Skills
+
+Skills installed for Cursor go into `~/.cursor/skills`, or `.cursor/skills` in the workspace.
+
+## What Sentinel keeps for a Cursor thread
+
+The shared ACP thread state: the session ID, working directory, model, mode, reasoning effort, the agent's config values, and the last message the session holds. When a thread's history no longer matches the session (after an edit or a checkpoint restore), the next turn starts a new session.
+
+## Code references
+
+- [`acp/agents/cursor.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/agents/cursor.ts)
+- [`usage/cursor.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/usage/cursor.ts)
+- [`state/acp.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/acp.ts)

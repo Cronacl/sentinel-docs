@@ -1,0 +1,57 @@
+---
+title: "OpenCode"
+description: "OpenCode 1.x and 2.x inside Sentinel, through a local OpenCode server."
+---
+
+Sentinel can run a thread on OpenCode, either generation.
+
+It starts a local `opencode serve` for each instance and talks to it over HTTP. A version probe picks the protocol: OpenCode 1.x and OpenCode 2.x servers speak different APIs, and Sentinel drives both.
+
+## Setup
+
+| What            | Details                                                                                   |
+| --------------- | ----------------------------------------------------------------------------------------- |
+| Install         | `npm install -g opencode-ai` for 1.x, or `npm install -g @opencode/cli` for 2.x           |
+| Update          | `opencode upgrade` for an install in `~/.opencode/bin`, otherwise npm                     |
+| Recommended     | OpenCode 1.14.19 or newer on 1.x, or 2.0.18 or newer on 2.x; 1.0.224 is the oldest that works |
+| Home variable   | None; instances share OpenCode's sign-in and settings                                     |
+| Binary override | The instance's binary path, or `SENTINEL_OPENCODE_PATH` for the default instance          |
+
+## Sign-in
+
+OpenCode signs in per model provider. **Add a provider login** runs `opencode auth login` in a terminal inside the OpenCode card. Signing out runs `opencode auth logout`.
+
+## The server
+
+One server runs per instance, and every thread of that instance shares it, so a turn does not pay a server start.
+
+- It is reused while the instance's configuration, binary, and version stay the same, and replaced after its last turn when they change.
+- It is stopped 15 minutes after its last turn, and when the instance is disabled or removed.
+- Each thread keeps its OpenCode session between turns. When the thread no longer matches the session (after an edit or a checkpoint restore), the next turn starts a new one.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Accept edits*, and *Full*, applied as rules on the session.
+- **Plan mode**: OpenCode's plan agent. Edits are denied while it plans, whatever the permission mode.
+- **Agents and variants**: the thread can pick an OpenCode agent and model variant.
+- **Questions** from OpenCode 1.x and forms from OpenCode 2.x become prompts in the thread.
+- **Images** are sent as files.
+- **Slash commands** come from the server and run through OpenCode's own command endpoint.
+
+## Usage limits
+
+When OpenCode Go is set up in OpenCode itself, the OpenCode card and the composer show its plan usage. Without Go, nothing is read and nothing is sent.
+
+## Skills
+
+Skills installed for OpenCode go into `~/.config/opencode/skills`, or `.opencode/skills` in the workspace.
+
+## What Sentinel keeps for an OpenCode thread
+
+The session ID, the server generation it was made on, working directory, model, selected agent and variant, and the last message the session holds.
+
+## Code references
+
+- [`opencode-sdk/server-pool.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/opencode-sdk/server-pool.ts)
+- [`opencode-sdk/session.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/opencode-sdk/session.ts)
+- [`state/opencode.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/opencode.ts)

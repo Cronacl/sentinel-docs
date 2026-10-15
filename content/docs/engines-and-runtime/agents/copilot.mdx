@@ -1,10 +1,28 @@
 ---
-title: "GitHub Copilot"
+title: "Copilot"
+description: "GitHub Copilot inside Sentinel, through the Copilot SDK."
 ---
 
-Sentinel can also use the local GitHub Copilot runtime inside the same shell.
+Sentinel can also run a thread on GitHub Copilot, through the Copilot SDK.
 
 The model runtime changes, but the thread model and app shell stay where they are.
+
+## Setup
+
+| What            | Details                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| Runtime         | Bundled with Sentinel, so nothing needs installing                                       |
+| Your own CLI    | Optional: `brew install copilot-cli` or `npm install -g @github/copilot`, then set it as the instance's binary path |
+| Update          | The bundled runtime updates with Sentinel; your own CLI updates with `copilot update` or Homebrew |
+| Recommended     | Copilot CLI 1.0 or newer, when you run your own                                          |
+| Home variable   | `COPILOT_HOME`                                                                           |
+
+Clearing the binary path goes back to the bundled runtime.
+
+## Sign-in
+
+- **Sign in with GitHub** runs `copilot login` in a terminal inside the Copilot card, into the instance's home.
+- **Use a GitHub token** stores a fine-grained token with the Copilot Requests permission, encrypted on the instance as `COPILOT_GITHUB_TOKEN`.
 
 ## What Sentinel keeps for a Copilot thread
 
@@ -14,6 +32,7 @@ A Copilot-backed thread can carry:
 - working directory
 - model
 - reasoning effort
+- the instance it runs on
 
 That is enough for Sentinel to reopen the thread and keep the runtime connection lined up with the rest of the thread state.
 
@@ -27,7 +46,7 @@ Copilot has its own runtime-status surface inside Sentinel.
 
 That status layer is doing a little more than simple model discovery.
 
-The app checks whether the Copilot CLI is present, whether auth is ready, and whether the runtime can return the current model list in time.
+The app checks whether the runtime is present, whether auth is ready, and whether the runtime can return the current model list in time.
 
 That matters because a local runtime can be installed but still not be ready to run a thread if auth is missing.
 
@@ -37,7 +56,7 @@ Sentinel asks the local Copilot setup for runtime status and available models.
 
 If the local runtime responds normally, the app uses those runtime models directly.
 
-If the CLI is present and authenticated but model discovery times out, Sentinel can still surface a small fallback model list so the thread UI does not stall out.
+If the runtime is present and authenticated but model discovery times out, Sentinel can still surface a small fallback model list so the thread UI does not stall out.
 
 That fallback matters for the same reason it matters on Codex and Claude: local runtime checks can be a little uneven.
 
@@ -68,27 +87,24 @@ The session record is still smaller than the Codex one, but the pattern is famil
 3. Stream output and status back through the thread.
 4. Persist the updated state in Sentinel around the runtime.
 
+## Permission and plan mode
+
+Copilot threads use Sentinel's *Default* and *Full* permission modes. In *Default*, shell, read, write, and web requests follow your approval settings, and requests for MCP servers, custom tools, hooks, and extensions always ask.
+
+Copilot has no plan mode Sentinel can drive, so plan mode uses Sentinel's plan prompt.
+
 ## Code shape
 
 The Copilot state surface is defined explicitly in the runtime types:
 
 ```ts
 export const copilotThreadStateSchema = z.object({
+  ...threadStateSessionMeta,
   cwd: z.string().nullish(),
   modelId: z.string().nullish(),
   reasoningEffort: z.enum(REASONING_EFFORTS).nullish(),
   sessionId: z.string(),
 });
-```
-
-The model router also gives Copilot the same fallback-model path as the other local runtimes:
-
-```ts
-if (input.engine === "copilot") {
-  const status = await runtimeStatuses.copilot();
-  const models = canUseCopilotFallbackModels(status)
-    ? buildFallbackCopilotModels()
-    : status.availableModels;
 ```
 
 ## What stays in Sentinel
@@ -105,6 +121,6 @@ So the runtime changes, but the rest of the product stays steady.
 
 ## Code references
 
-- [`types.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/types.ts)
+- [`state/copilot.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/copilot.ts)
 - [`copilot-sdk.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/copilot-sdk.ts)
-- [`engines.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/server/api/routers/engines.ts)
+- [`drivers/copilot.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/drivers/copilot.ts)

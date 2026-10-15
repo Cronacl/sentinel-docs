@@ -1,0 +1,50 @@
+---
+title: "Pi"
+description: "The Pi coding agent inside Sentinel, through Pi's RPC mode."
+---
+
+Sentinel can run a thread on the [Pi](https://pi.dev) coding agent.
+
+It starts `pi --mode rpc` and talks to it in JSON lines over stdin and stdout. One Pi process per thread stays up between turns. Pi support is experimental.
+
+## Setup
+
+| What            | Details                                                                                   |
+| --------------- | ----------------------------------------------------------------------------------------- |
+| Install         | `npm install -g --ignore-scripts @earendil-works/pi-coding-agent`, or `curl -fsSL https://pi.dev/install.sh \| sh` |
+| Update          | `pi update --self`                                                                        |
+| Required        | Pi 0.80.5 or newer, which speaks the RPC protocol Sentinel uses                           |
+| Home variable   | None; instances share Pi's sign-in and settings                                           |
+| Binary override | The instance's binary path, or `SENTINEL_PI_PATH` for the default instance                |
+
+## Sign-in
+
+- **Sign in from Pi** opens Pi in a terminal inside the Pi card: type `/login` and pick a provider.
+- **Use an API key** for Anthropic, OpenAI, Google Gemini, or OpenRouter stores the key encrypted on the instance, as `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY`, or `OPENROUTER_API_KEY`.
+
+Pi counts as signed in once it offers at least one model.
+
+## Approvals
+
+Pi leaves permissions to its extensions. Sentinel loads a small Pi extension of its own that asks before every tool call, and Sentinel answers each one from the thread's permission mode: read-only tools at once, edits by scope under *Accept edits*, everything under *Full*.
+
+So changing the permission mode never restarts Pi.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Accept edits*, and *Full*.
+- **Plan mode**: none. Pi has no plan mode.
+- **Models** come from Pi as `provider/model`, or Pi's own default. The thinking level is set per thread.
+- **Images** can be attached to a prompt.
+- **MCP servers** are not passed to Pi, which has no MCP client.
+- **Slash commands** Pi reports appear in the composer's slash menu. Pi manages its own skills.
+
+## What Sentinel keeps for a Pi thread
+
+Pi's session file, the working directory, model, thinking level, and the last message the session holds. Pi resumes a session by its file path.
+
+## Code references
+
+- [`pi/launch.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/pi/launch.ts)
+- [`pi/extension.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/pi/extension.ts)
+- [`state/pi.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/pi.ts)

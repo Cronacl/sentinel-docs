@@ -8,18 +8,31 @@ If you want the mechanics behind any of this, the deeper explanation lives in `E
 
 ## Engines
 
-Sentinel currently supports four chat engines:
+Sentinel supports ten chat engines. Every engine except `sentinel` is a local coding agent, and each can have several [instances](/docs/engines-and-runtime/engines-overview#instances).
 
-| Engine     | Meaning                                                        |
-| ---------- | -------------------------------------------------------------- |
-| `sentinel` | Built-in harness and built-in engine path                      |
-| `codex`    | Local Codex runtime carried inside Sentinel thread state       |
-| `claude`   | Local Claude Code runtime carried inside Sentinel thread state |
-| `copilot`  | Local GitHub Copilot runtime carried inside Sentinel thread state |
+| Engine        | Meaning                                                              | Stability    |
+| ------------- | -------------------------------------------------------------------- | ------------ |
+| `sentinel`    | Built-in harness and built-in engine path                            | Stable       |
+| `codex`       | Codex CLI, through the Codex app-server                              | Stable       |
+| `claude`      | Claude Code, through the Claude Agent SDK                            | Stable       |
+| `copilot`     | GitHub Copilot, through the Copilot SDK and its bundled runtime      | Stable       |
+| `cursor`      | Cursor Agent, over ACP                                               | Stable       |
+| `opencode`    | OpenCode 1.x or 2.x, through a local OpenCode server                 | Stable       |
+| `grok`        | xAI Grok Build, over ACP                                             | Experimental |
+| `antigravity` | Google Antigravity's ACP server, installed by Sentinel               | Experimental |
+| `pi`          | The Pi coding agent, over JSONL RPC                                  | Experimental |
+| `acp`         | ACP Registry agents (Gemini CLI, Devin, Mistral Vibe, and others) or any ACP command | Experimental |
+
+## Engine settings
+
+| Setting                     | Where                                   | Default |
+| --------------------------- | --------------------------------------- | ------- |
+| Model and version updates   | Settings → Engines, or `SENTINEL_DISABLE_REMOTE_MANIFEST` | On      |
+| Check for CLI updates       | Settings → Engines, or `SENTINEL_DISABLE_ENGINE_UPDATE_CHECKS` | On      |
 
 ## Model providers
 
-Current AI provider support includes OpenAI, Anthropic, Google AI Studio, Google Vertex AI, xAI, Azure OpenAI, Amazon Bedrock, Groq, Cohere, Moonshot AI, Mistral, Ollama, OpenRouter, and Vercel AI Gateway.
+Current AI provider support includes OpenAI, Anthropic, Google AI Studio, Google Vertex AI, xAI, Azure OpenAI, Amazon Bedrock, Groq, Cohere, Moonshot AI, Mistral, DeepSeek, Ollama, OpenRouter, and Vercel AI Gateway.
 
 ## Search providers
 
@@ -39,4 +52,4 @@ Sentinel supports `stdio` and `http` MCP transports.
 
 ## Related pages
 
-For the longer version, see [Sentinel engine](/docs/engines-and-runtime/sentinel-engine), [Thread state](/docs/engines-and-runtime/thread-state), [Codex runtime](/docs/engines-and-runtime/codex-runtime), [Claude Code](/docs/engines-and-runtime/claude-code), [GitHub Copilot](/docs/engines-and-runtime/github-copilot), and [Integrations and MCP](/docs/configuration/integrations-and-mcp).
+For the longer version, see [Engines overview](/docs/engines-and-runtime/engines-overview), [Agents](/docs/engines-and-runtime/agents), [Sentinel engine](/docs/engines-and-runtime/sentinel-engine), [Thread state](/docs/engines-and-runtime/thread-state), and [Integrations and MCP](/docs/configuration/integrations-and-mcp).

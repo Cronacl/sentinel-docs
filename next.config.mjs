@@ -10,6 +10,18 @@ const config = {
   // `next dev`; keep the tree clean.
   agentRules: false,
   reactStrictMode: true,
+  // The agent pages moved under engines-and-runtime/agents; keep old links working.
+  async redirects() {
+    return [
+      ["claude-code", "claude"],
+      ["codex-runtime", "codex"],
+      ["github-copilot", "copilot"],
+    ].map(([from, to]) => ({
+      source: `/docs/engines-and-runtime/${from}`,
+      destination: `/docs/engines-and-runtime/agents/${to}`,
+      permanent: true,
+    }));
+  },
   turbopack: {
     root: rootDir,
   },

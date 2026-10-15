@@ -2,9 +2,12 @@ import {
   BrowserIcon,
   CodeFolderIcon,
   Comment01Icon,
+  DashboardSpeed01Icon,
+  Download04Icon,
   Layers01Icon,
   SecurityCheckIcon,
   TerminalIcon,
+  UserMultiple02Icon,
 } from "@hugeicons/core-free-icons";
 import type { IconSvgElement } from "@hugeicons/react";
 import Icon from "@/components/icon";
@@ -19,7 +22,22 @@ const FEATURES: Feature[] = [
   {
     icon: Layers01Icon,
     title: "Multi-engine",
-    description: "Sentinel, Codex, Claude, or Copilot in one app.",
+    description: "Claude, Codex, Copilot, Cursor, OpenCode, Grok, Pi, and more.",
+  },
+  {
+    icon: UserMultiple02Icon,
+    title: "Engine instances",
+    description: "Several setups per agent, each with its own account.",
+  },
+  {
+    icon: Download04Icon,
+    title: "Install and sign in",
+    description: "Set up, update, and sign in to agents from Settings.",
+  },
+  {
+    icon: DashboardSpeed01Icon,
+    title: "Usage limits",
+    description: "Plan usage from Claude, Codex, Cursor, and more.",
   },
   {
     icon: TerminalIcon,

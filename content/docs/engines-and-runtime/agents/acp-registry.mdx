@@ -1,0 +1,63 @@
+---
+title: "ACP Registry"
+description: "Gemini CLI, Devin, Mistral Vibe, and other ACP Registry agents inside Sentinel."
+---
+
+The [ACP Registry](https://agentclientprotocol.com/registry) lists coding agents that speak the Agent Client Protocol. Sentinel can install any of them and run threads on it, on the same ACP engine that carries Cursor, Grok Build, and Antigravity.
+
+You can also point an instance at any ACP command of your own. Registry agents are experimental.
+
+## Adding an agent
+
+There is no default ACP instance. Each registry agent you add becomes an instance of its own.
+
+1. Open **Settings → Engines** and browse the **ACP Registry**. Gemini CLI is featured at the top.
+2. Pick an agent and review what it installs.
+3. Confirm. Sentinel installs the version you confirmed and adds the instance.
+
+The registry index is fetched from `cdn.agentclientprotocol.com` only when you browse or refresh it, and at most once a day in the background while you have registry instances and update checks are on. It is cached, and a failed fetch keeps the cached copy.
+
+## How agents are installed
+
+Registry agents are third-party programs, so Sentinel installs one only after you confirm it, and never starts one on its own just to check it.
+
+| Distribution | What Sentinel does                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| Binary       | Downloads the release over HTTPS, checks its SHA-256 when the registry pins one, and extracts it into a private folder |
+| npx          | Installs the npm package with a private npm prefix                                        |
+| uvx          | Installs the Python package with `uv tool install`, into a private tool folder            |
+| Custom       | Runs the command and arguments you set on the instance                                    |
+
+Every install lives in Sentinel's own state folder, one folder per agent, and is recorded so launching never needs the registry again. If the registry lists a different version than the one you confirmed, Sentinel asks you to review it and install again.
+
+## Sign-in
+
+Each agent declares how it signs in, and the card offers those methods:
+
+- **Agent**: the agent handles its own sign-in.
+- **Environment variable**: you set the key on the instance, stored encrypted.
+- **Terminal**: the agent's login command runs in a terminal inside the card.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Accept edits*, and *Full*.
+- **Plan mode**: the agent's own plan mode when it has one, else Sentinel's plan prompt.
+- **Images**: when the agent says it accepts them.
+- **MCP servers** from Settings are passed to the agent.
+- **Slash commands** the agent reports appear in the composer's slash menu.
+
+## Agents with extra handling
+
+Most registry agents need nothing special. A few get small adjustments:
+
+| Agent        | What Sentinel adds                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| Gemini CLI   | Featured in the browser. It reads files itself, so serving files to it is opt-in per instance |
+| Devin        | Subagent updates go to the right subagent card. Devin runs commands through Sentinel's terminals, which follow your command approval settings |
+| Mistral Vibe | Its retry notices show in the thread; a rate limit shows as a usage-limit notice          |
+
+## Code references
+
+- [`acp/registry/catalog.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/registry/catalog.ts)
+- [`acp/registry/install.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/registry/install.ts)
+- [`acp/registry/overlays.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/registry/overlays.ts)

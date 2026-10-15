@@ -167,3 +167,97 @@ export function DatabaseIcon({ size, ...props }: IconProps) {
     </svg>
   );
 }
+
+// Agent glyphs. Simple line drawings made for these docs, not the vendors'
+// artwork: each hints at the agent (a pointer, a pi, a gust of wind) in the
+// same stroke style as DatabaseIcon.
+function strokeDefaults(size?: number): SVGProps<SVGSVGElement> {
+  return {
+    ...defaults(size),
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.5,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
+}
+
+export function CursorAgentLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <path d="M5 3.5l13.5 7.4-5.9 1.7-2.5 5.9z" />
+    </svg>
+  );
+}
+
+export function OpenCodeLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <rect x="3" y="4" width="18" height="16" rx="3" />
+      <path d="M9.5 9.5L7 12l2.5 2.5" />
+      <path d="M14.5 9.5L17 12l-2.5 2.5" />
+      <path d="M12.8 8.5l-1.6 7" />
+    </svg>
+  );
+}
+
+export function AntigravityLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <path d="M12 15V4" />
+      <path d="M8 8l4-4 4 4" />
+      <path d="M4 16c2.5 2.7 5.2 4 8 4s5.5-1.3 8-4" />
+    </svg>
+  );
+}
+
+export function PiLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <path d="M5 7h14" />
+      <path d="M9 7v11" />
+      <path d="M15 7v8.5c0 1.4.8 2.5 2.5 2.5" />
+    </svg>
+  );
+}
+
+export function AcpLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <circle cx="6" cy="6" r="2.25" />
+      <circle cx="18" cy="6" r="2.25" />
+      <circle cx="12" cy="18" r="2.25" />
+      <path d="M8.25 6h7.5" />
+      <path d="M7.1 8l3.8 7.9" />
+      <path d="M16.9 8l-3.8 7.9" />
+    </svg>
+  );
+}
+
+export function GeminiCliLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <circle cx="9" cy="12" r="5" />
+      <circle cx="15" cy="12" r="5" />
+    </svg>
+  );
+}
+
+export function DevinLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="4" />
+      <path d="M9 8h2.5a4 4 0 010 8H9z" />
+    </svg>
+  );
+}
+
+export function MistralVibeLogo({ size, ...props }: IconProps) {
+  return (
+    <svg {...strokeDefaults(size)} {...props}>
+      <path d="M3 8h11a2.5 2.5 0 10-2.5-2.5" />
+      <path d="M3 12h15a2.5 2.5 0 11-2.5 2.5" />
+      <path d="M3 16h7" />
+    </svg>
+  );
+}

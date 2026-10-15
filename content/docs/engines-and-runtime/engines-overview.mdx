@@ -1,0 +1,151 @@
+---
+title: "Engines overview"
+description: "Instances, homes, install and update, sign-in, usage limits, skills, slash commands, and the engine manifest."
+---
+
+An engine is the runtime that carries a thread's turns.
+
+Sentinel ships its own engine, `sentinel`, and drives a set of local coding agents next to it. The agent changes. The workspace, the thread, the repo panels, approvals, and settings stay in Sentinel.
+
+Everything on this page lives in **Settings → Engines**.
+
+## The engines
+
+| Engine                                                  | Id            | How Sentinel talks to it                   | Stability    |
+| ------------------------------------------------------- | ------------- | ------------------------------------------ | ------------ |
+| [Sentinel](/docs/engines-and-runtime/sentinel-engine)   | `sentinel`    | Built in, through Sentinel's providers     | Stable       |
+| [Codex](/docs/engines-and-runtime/agents/codex)         | `codex`       | The Codex app-server                       | Stable       |
+| [Claude](/docs/engines-and-runtime/agents/claude)       | `claude`      | The Claude Agent SDK and Claude Code       | Stable       |
+| [Copilot](/docs/engines-and-runtime/agents/copilot)     | `copilot`     | The GitHub Copilot SDK                     | Stable       |
+| [Cursor](/docs/engines-and-runtime/agents/cursor)       | `cursor`      | Cursor Agent's ACP server                  | Stable       |
+| [OpenCode](/docs/engines-and-runtime/agents/opencode)   | `opencode`    | A local OpenCode server (1.x or 2.x)       | Stable       |
+| [Grok Build](/docs/engines-and-runtime/agents/grok)     | `grok`        | Grok Build's ACP server                    | Experimental |
+| [Antigravity](/docs/engines-and-runtime/agents/antigravity) | `antigravity` | Google's Antigravity ACP server            | Experimental |
+| [Pi](/docs/engines-and-runtime/agents/pi)               | `pi`          | Pi's JSONL RPC mode                        | Experimental |
+| [ACP Registry](/docs/engines-and-runtime/agents/acp-registry) | `acp`   | Any agent from the ACP Registry, or any ACP command | Experimental |
+
+ACP is the [Agent Client Protocol](https://agentclientprotocol.com). Cursor, Grok Build, Antigravity, and every registry agent share one ACP engine in Sentinel, so streaming, approvals, plan cards, and stopping a turn behave the same way across them.
+
+The [agents](/docs/engines-and-runtime/agents) page compares permission modes, plan mode, and usage limits side by side.
+
+## Instances
+
+An instance is one configured copy of an agent.
+
+Every agent except the ACP Registry has a default instance, so a fresh install works without any setup. Use **Add instance** under an agent to make more: a work and a personal Claude account, two Codex installs, or an OpenCode build you are testing.
+
+An instance has:
+
+- a label, shown in the composer and in automations; its id is derived from the label and cannot change later
+- an accent colour
+- a binary path; leave it empty to find the agent on the `PATH`
+- a home directory, for agents that have one (see below)
+- environment variables; sensitive values are stored encrypted
+- custom models, for model ids the agent accepts but does not list
+- an enabled switch
+
+Threads, automations, and your default engine point at an instance. A thread's native session is tied to the instance (and home) it was made on, so another instance never resumes it; moving a thread starts a fresh session there.
+
+For the default instance only, the older variables such as `SENTINEL_CLAUDE_PATH` or `SENTINEL_CODEX_PATH` still set the binary.
+
+## Isolated homes
+
+Some agents keep their sign-in, settings, sessions, and skills in one home directory. For those, an instance can point that variable at its own directory, which keeps two accounts fully apart.
+
+| Agent       | Home variable                                               |
+| ----------- | ----------------------------------------------------------- |
+| Codex       | `CODEX_HOME`                                                |
+| Claude      | `CLAUDE_CONFIG_DIR`                                         |
+| Copilot     | `COPILOT_HOME`                                              |
+| Grok Build  | `GROK_HOME`                                                 |
+| Antigravity | Always a private profile per instance, managed by Sentinel  |
+
+Without a home directory, an instance shares the agent's default home with your terminal.
+
+Cursor, OpenCode, Pi, and registry agents have no home variable. Their instances share the CLI's own sign-in and settings and differ only by environment variables (an API key, for example) and the binary they run.
+
+## Status and version advisories
+
+Sentinel probes every enabled instance: is the binary there, which version is it, is it signed in, and which models does it offer. The result shows on the instance card.
+
+The installed version is checked against the ranges in the engine manifest:
+
+| Status      | Meaning                                                    |
+| ----------- | ---------------------------------------------------------- |
+| Supported   | A version Sentinel is tested with                          |
+| Graceful    | Works, with an update recommended                          |
+| Unsupported | Older than the tested versions; some features may not work |
+| Broken      | Too old to drive; update before using it                   |
+| Unknown     | No range covers this version                               |
+
+Each agent page lists its recommended version.
+
+## Install and update
+
+When an agent is missing, its card offers the install options that apply to your platform. When it is outdated, the card offers an update.
+
+Every command is shown exactly as it will run, and runs only after you confirm it. Output streams into the card.
+
+- **Install options** are the agent's own: an npm global install, the vendor's install script, or both.
+- **Updates** go through whoever owns the binary. Sentinel uses npm or Homebrew only when it can prove that manager installed it, and otherwise runs the CLI's own updater (`claude update`, `codex update`, `grok update`, `pi update --self`, `opencode upgrade`, and so on).
+- **Copilot** runs on a runtime bundled with Sentinel, so it updates with Sentinel.
+- **Antigravity** is downloaded and installed by Sentinel itself, checked against pinned SHA-256 hashes.
+- **ACP Registry** agents are installed from the registry, into a private folder per agent.
+
+To find updates, Sentinel looks up the newest release of installed CLIs on the npm registry and Homebrew. Turn this off with **Check for CLI updates**, or for the whole app with `SENTINEL_DISABLE_ENGINE_UPDATE_CHECKS`.
+
+## Sign-in
+
+Each instance signs in on its own, from its card. The methods depend on the agent:
+
+- **Browser sign-in**: Codex (ChatGPT) and Antigravity (Google) run the sign-in from Sentinel.
+- **Device code**: Codex can show a code to enter on another device.
+- **Terminal sign-in**: Claude, Copilot, Cursor, Grok Build, OpenCode, and Pi run their own login command in a terminal embedded in the card.
+- **API key or token**: most agents accept a key instead. It is stored encrypted on the instance as the variable the agent reads, such as `ANTHROPIC_API_KEY` or `XAI_API_KEY`.
+
+Signing out also clears any key Sentinel stored on the instance.
+
+## Usage limits
+
+Agents that report plan usage show it in two places: a chip in the composer with the fullest window, and every window on the instance card.
+
+| Agent      | What is shown                          |
+| ---------- | -------------------------------------- |
+| Codex      | Plan rate-limit windows                |
+| Claude     | Plan rate-limit windows                |
+| Cursor     | Plan usage from the Cursor dashboard   |
+| OpenCode   | OpenCode Go plan usage, when Go is set up |
+| Grok Build | Billing credits of the grok.com login  |
+
+Usage is read about every five minutes, and runs push updates in between. **Refresh** reads it now.
+
+On macOS, Cursor can keep its login in the Keychain. Sentinel reads it only when you ask from the Cursor card; macOS then asks you to allow it. The token stays in memory and is only sent to Cursor.
+
+## Skills and slash commands
+
+The composer's slash menu is built from what the selected instance reports. Native commands go to the agent as the prompt's text (`/name args`). A few commands are run by Sentinel itself, such as Codex compact, review, and rollback.
+
+Codex, Grok Build, and Pi also report their own skills to Sentinel.
+
+The [Skills](/docs/configuration/skills) screen can install a skill for Sentinel, Codex, Claude, Copilot, Cursor, or OpenCode. When the selected instance has its own home, global skills go into that home.
+
+## The engine manifest
+
+Sentinel keeps a small manifest of model lists, default models, and supported version ranges per agent. It ships inside the app, and a newer copy is fetched from [`manifests/engine-manifest.v1.json`](https://github.com/Cronacl/Sentinel/blob/main/manifests/engine-manifest.v1.json) on Sentinel's `main` branch.
+
+- It is refreshed at most once an hour, over HTTPS, and validated before use.
+- A failed fetch keeps the copy in effect: the last good download, else the bundled one.
+- A downloaded copy older than the bundled one is never used.
+
+Turn this off with **Model and version updates**, or with `SENTINEL_DISABLE_REMOTE_MANIFEST`. Off means the bundled copy only.
+
+## MCP servers
+
+Your MCP servers from **Settings → MCP Servers** are passed to the engines that accept them: Sentinel, Cursor, Grok Build, Antigravity, and ACP Registry agents.
+
+## Related pages
+
+- [Agents](/docs/engines-and-runtime/agents)
+- [Thread state](/docs/engines-and-runtime/thread-state)
+- [Providers and models](/docs/configuration/providers-and-models)
+- [Engines, providers, and integrations](/docs/reference/engines-providers-and-integrations)

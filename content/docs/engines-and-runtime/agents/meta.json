@@ -1,0 +1,15 @@
+{
+  "title": "Agents",
+  "pages": [
+    "index",
+    "claude",
+    "codex",
+    "copilot",
+    "cursor",
+    "opencode",
+    "grok",
+    "antigravity",
+    "pi",
+    "acp-registry"
+  ]
+}
