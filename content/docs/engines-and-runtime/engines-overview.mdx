@@ -141,7 +141,9 @@ Turn this off with **Model and version updates**, or with `SENTINEL_DISABLE_REMO
 
 ## MCP servers
 
-Your MCP servers from **Settings → MCP Servers** are passed to the engines that accept them: Sentinel, Cursor, Grok Build, Antigravity, and ACP Registry agents.
+Your enabled MCP servers from **Settings → MCP Servers** are passed to every engine except Pi, which has no MCP client: Sentinel, Claude, Codex, Copilot, Cursor, OpenCode, Grok Build, Antigravity, and ACP Registry agents. Each engine gets them in its own format, and header and env values go only to the agent process.
+
+A change to your MCP servers applies on the next turn. Codex reloads the thread, and OpenCode 1.x starts a new server for the instance. The engine's own MCP configuration, such as Codex's `config.toml` or your OpenCode config, still applies alongside them.
 
 ## Related pages
 
