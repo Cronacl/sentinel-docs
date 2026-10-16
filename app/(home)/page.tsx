@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HomeAgents from "@/components/home-agents";
 import HomeChapters from "@/components/home-chapters";
 import HomeCTA from "@/components/home-cta";
+import HomeFlex from "@/components/home-flex";
 import HomeHero from "@/components/home-hero";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function HomePage() {
       <HomeHero />
       <HomeAgents />
       <HomeChapters />
+      <HomeFlex />
       <HomeCTA />
     </>
   );

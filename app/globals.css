@@ -224,59 +224,71 @@
   line-height: 1.5;
 }
 
-/* Sentinel app palette: the same flat neutrals the desktop app uses. */
+/* Warm, quiet neutrals: flat panels, no borders, regular-weight type. */
 
 :root,
 [data-theme="light"] {
-  --color-fd-background: #f9f9f9;
-  --color-fd-foreground: #0a0a0a;
-  --color-fd-card: #ffffff;
-  --color-fd-card-foreground: #0a0a0a;
-  --color-fd-popover: #ffffff;
-  --color-fd-popover-foreground: #0a0a0a;
-  --color-fd-muted: #f2f2f2;
-  --color-fd-muted-foreground: #6b6b6b;
-  --color-fd-border: #e6e6e6;
-  --color-fd-primary: #0a0a0a;
-  --color-fd-primary-foreground: #ffffff;
-  --color-fd-secondary: #efefef;
-  --color-fd-secondary-foreground: #0a0a0a;
-  --color-fd-accent: #ededed;
-  --color-fd-accent-foreground: #0a0a0a;
-  --color-fd-ring: #a3a3a3;
+  --color-fd-background: #f7f7f4;
+  --color-fd-foreground: #26251e;
+  --color-fd-card: #f0efea;
+  --color-fd-card-foreground: #26251e;
+  --color-fd-popover: #fbfbf9;
+  --color-fd-popover-foreground: #26251e;
+  --color-fd-muted: #e9e8e2;
+  --color-fd-muted-foreground: #74726b;
+  --color-fd-border: #e2e0d9;
+  --color-fd-primary: #26251e;
+  --color-fd-primary-foreground: #f7f7f4;
+  --color-fd-secondary: #ebeae4;
+  --color-fd-secondary-foreground: #26251e;
+  --color-fd-accent: #ebeae4;
+  --color-fd-accent-foreground: #26251e;
+  --color-fd-ring: #b5b3ab;
+  --color-link: #e25d12;
+  --color-art-ink: #26251e;
 }
 
 .dark,
 [data-theme="dark"] {
-  --color-fd-background: #111111;
-  --color-fd-foreground: #f5f5f5;
-  --color-fd-card: #080808;
-  --color-fd-card-foreground: #f5f5f5;
-  --color-fd-popover: #1c1c1c;
-  --color-fd-popover-foreground: #f5f5f5;
-  --color-fd-muted: #181818;
-  --color-fd-muted-foreground: #9a9a9a;
-  --color-fd-border: #232323;
-  --color-fd-primary: #f5f5f5;
-  --color-fd-primary-foreground: #0a0a0a;
-  --color-fd-secondary: #1c1c1c;
-  --color-fd-secondary-foreground: #f5f5f5;
-  --color-fd-accent: #1c1c1c;
-  --color-fd-accent-foreground: #ffffff;
-  --color-fd-ring: #404040;
+  --color-fd-background: #141413;
+  --color-fd-foreground: #edece8;
+  --color-fd-card: #1c1c1a;
+  --color-fd-card-foreground: #edece8;
+  --color-fd-popover: #20201e;
+  --color-fd-popover-foreground: #edece8;
+  --color-fd-muted: #24241f;
+  --color-fd-muted-foreground: #9b9992;
+  --color-fd-border: #2a2a26;
+  --color-fd-primary: #edece8;
+  --color-fd-primary-foreground: #141413;
+  --color-fd-secondary: #24241f;
+  --color-fd-secondary-foreground: #edece8;
+  --color-fd-accent: #24241f;
+  --color-fd-accent-foreground: #edece8;
+  --color-fd-ring: #4a4944;
+  --color-link: #f2783a;
+  --color-art-ink: #edece8;
 }
 
-/* Product screenshots sit flat in a hairline frame, like an app window. */
+/* The app window floating on an artwork panel. */
 .product-frame {
   overflow: hidden;
-  border: 1px solid var(--color-fd-border);
-  border-radius: 12px;
-  background: var(--color-fd-card);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.06),
+    0 12px 32px -8px rgb(0 0 0 / 0.22),
+    0 2px 6px rgb(0 0 0 / 0.06);
 }
 
-/* Docs: the app's sidebar and reading rhythm. */
+.dark .product-frame {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 16px 40px -8px rgb(0 0 0 / 0.7);
+}
+
+/* Docs: same warm surfaces, calm reading size. */
 #nd-sidebar {
-  background: var(--color-fd-card);
+  background: var(--color-fd-background);
 }
 
 #nd-sidebar a[data-active="true"] {
@@ -290,12 +302,11 @@
 }
 
 .prose {
-  --tw-prose-body: var(--color-fd-foreground);
   font-size: 15px;
   line-height: 1.7;
 }
 
-.prose :where(h2, h3):not(:where(.not-prose *)) {
+.prose :where(h1, h2, h3):not(:where(.not-prose *)) {
   font-weight: 500;
   letter-spacing: -0.015em;
 }

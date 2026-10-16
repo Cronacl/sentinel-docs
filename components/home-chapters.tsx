@@ -1,56 +1,64 @@
-import { Shot, type ShotName } from "@/components/landing/shot";
+import { ArtShot } from "@/components/landing/art-shot";
+import { ArrowLink } from "@/components/landing/buttons";
+import type { ShotName } from "@/components/landing/shot";
 
 type Chapter = {
-  label: string;
   title: string;
   body: string;
+  link: { label: string; href: string };
   shot: ShotName;
   alt: string;
+  seed: number;
 };
 
 const CHAPTERS: Chapter[] = [
   {
-    label: "Agents",
-    title: "Any agent, per thread.",
-    body: "Claude, Codex, Copilot, Cursor, OpenCode, Grok Build, Antigravity, Pi or anything in the ACP Registry. Your accounts, your CLIs.",
+    title: "Any agent, per thread",
+    body: "Claude, Codex, Copilot, Cursor, Grok Build, Antigravity, Pi or anything in the ACP Registry, on your own accounts.",
+    link: { label: "Learn about agents", href: "/docs/engines-and-runtime/agents" },
     shot: "composer-engines",
     alt: "The composer's agent picker listing every supported coding agent",
+    seed: 21,
   },
   {
-    label: "Engines",
-    title: "Managed for you.",
-    body: "Install, update and sign in from one place. See usage limits, and run separate instances for work and personal accounts.",
+    title: "Agents, managed for you",
+    body: "Install, update and sign in from one place. Watch usage limits and run separate instances for work and personal accounts.",
+    link: { label: "Learn about engines", href: "/docs/engines-and-runtime/engines-overview" },
     shot: "engines-usage",
     alt: "Settings → Engines with usage limits for Codex, Claude, Copilot, Cursor, OpenCode and Grok",
+    seed: 34,
   },
   {
-    label: "Control",
-    title: "Nothing runs without you.",
-    body: "Approve edits and commands once or always. A terminal and a browser sit right beside the thread.",
+    title: "Nothing runs without you",
+    body: "Approve edits and commands once or always. Plans, questions and tool calls show up right in the thread.",
+    link: { label: "Learn about approvals", href: "/docs/workflows/approvals-and-subagents" },
     shot: "approvals",
-    alt: "A pending approval for an agent's command inside a thread",
+    alt: "A plan with tasks and a pending approval for an agent's command",
+    seed: 55,
   },
 ];
 
 export default function HomeChapters() {
   return (
-    <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
-      {CHAPTERS.map((chapter, index) => (
-        <section key={chapter.label} className="pt-24 sm:pt-36">
-          <div className="grid gap-4 border-t border-fd-border pt-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-16">
-            <div>
-              <p className="text-[13px] text-fd-muted-foreground tabular-nums">
-                {String(index + 1).padStart(2, "0")} {chapter.label}
-              </p>
-              <h2 className="mt-3 text-[2rem] leading-[1.08] font-medium tracking-[-0.03em] text-balance sm:text-[2.6rem]">
-                {chapter.title}
-              </h2>
-            </div>
-            <p className="max-w-[420px] text-[16px] leading-relaxed text-pretty text-fd-muted-foreground lg:self-end">
-              {chapter.body}
-            </p>
+    <div className="mx-auto mt-20 flex max-w-[1200px] flex-col gap-4 px-5 sm:mt-28 sm:px-8">
+      {CHAPTERS.map((chapter) => (
+        <section
+          key={chapter.title}
+          className="grid overflow-hidden rounded-[6px] bg-fd-card lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.6fr)]"
+        >
+          <div className="flex flex-col justify-center gap-5 px-6 py-10 sm:px-10">
+            <h2 className="text-[1.375rem] leading-[1.3] font-normal tracking-[-0.01em] text-balance">
+              {chapter.title}
+              <span className="block text-fd-muted-foreground">{chapter.body}</span>
+            </h2>
+            <ArrowLink href={chapter.link.href}>{chapter.link.label}</ArrowLink>
           </div>
-          <Shot name={chapter.shot} alt={chapter.alt} className="mt-10 sm:mt-14" />
+          <ArtShot
+            name={chapter.shot}
+            alt={chapter.alt}
+            seed={chapter.seed}
+            className="rounded-none bg-fd-muted"
+          />
         </section>
       ))}
     </div>

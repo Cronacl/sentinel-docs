@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { useSyncExternalStore } from "react";
 import { AppleLogo, TerminalLogo, WindowsLogo } from "@/components/brand-icons";
 import { PrimaryButton, SecondaryButton } from "@/components/landing/buttons";
-import { Shot } from "@/components/landing/shot";
+import { ArtShot } from "@/components/landing/art-shot";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -42,41 +42,34 @@ export default function HomeHero() {
   });
 
   return (
-    <section className="mx-auto max-w-[1200px] px-5 pt-16 sm:px-8 sm:pt-28">
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
-        <motion.h1
-          {...appear(0)}
-          className="text-[2.75rem] leading-[1.02] font-medium tracking-[-0.035em] sm:text-[4.25rem]"
-        >
-          Every coding agent.
-          <br />
-          One workspace.
-        </motion.h1>
-
-        <motion.div {...appear(0.08)} className="lg:pb-2">
-          <p className="max-w-[420px] text-[16px] leading-relaxed text-fd-muted-foreground">
-            A free desktop app to run Claude, Codex, Cursor and every other
-            coding agent side by side, inside your own projects.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-2">
-            <PrimaryButton href="/download">
-              {PlatformIcon ? <PlatformIcon size={13} /> : null}
-              {platform ? `Download for ${platform}` : "Download"}
-            </PrimaryButton>
-            <SecondaryButton href="/docs">Documentation</SecondaryButton>
-          </div>
-        </motion.div>
-      </div>
+    <section className="mx-auto max-w-[1200px] px-5 pt-16 sm:px-8 sm:pt-24">
+      <motion.div {...appear(0)} className="max-w-[640px]">
+        <h1 className="text-[1.75rem] leading-[1.25] font-normal tracking-[-0.01em] sm:text-[2rem]">
+          Every coding agent, one workspace.
+          <span className="block text-fd-muted-foreground">
+            Run Claude, Codex, Cursor and more side by side, in your own
+            projects.
+          </span>
+        </h1>
+        <div className="mt-7 flex flex-wrap items-center gap-2">
+          <PrimaryButton href="/download">
+            {PlatformIcon ? <PlatformIcon size={13} /> : null}
+            {platform ? `Download for ${platform}` : "Download"}
+          </PrimaryButton>
+          <SecondaryButton href="/docs">Documentation</SecondaryButton>
+        </div>
+      </motion.div>
 
       <motion.div
         initial={reduceMotion ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: EASE, delay: 0.16 }}
-        className="mt-14 sm:mt-20"
+        transition={{ duration: 0.7, ease: EASE, delay: 0.12 }}
+        className="mt-12 sm:mt-16"
       >
-        <Shot
+        <ArtShot
           name="terminal-browser"
           alt="Sentinel with an agent thread, the built-in terminal running tests and the built-in browser previewing the app"
+          seed={7}
           priority
         />
       </motion.div>

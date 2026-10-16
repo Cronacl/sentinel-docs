@@ -36,17 +36,17 @@ const AGENTS: Agent[] = [
 
 export default function HomeAgents() {
   return (
-    <section className="mx-auto max-w-[1200px] px-5 pt-24 sm:px-8 sm:pt-32">
-      <p className="text-[13px] text-fd-muted-foreground">
-        Works with the agents you already use, on your own accounts.
+    <section className="mx-auto max-w-[1200px] px-5 pt-20 sm:px-8 sm:pt-28">
+      <p className="text-center text-[14px] text-fd-muted-foreground">
+        Works with the agents you already use, on your own accounts
       </p>
-      <ul className="mt-6 grid grid-cols-2 border-t border-l border-fd-border sm:grid-cols-4 lg:grid-cols-6">
+      <ul className="mx-auto mt-8 flex max-w-[960px] flex-wrap justify-center gap-x-10 gap-y-5">
         {AGENTS.map(({ name, Icon }) => (
           <li
             key={name}
-            className="flex h-16 items-center gap-2.5 border-r border-b border-fd-border px-5 text-[13.5px] text-fd-muted-foreground"
+            className="flex items-center gap-2 text-[15px] text-fd-muted-foreground"
           >
-            <Icon size={15} className="shrink-0 text-fd-foreground" />
+            <Icon size={16} className="shrink-0" />
             {name}
           </li>
         ))}
