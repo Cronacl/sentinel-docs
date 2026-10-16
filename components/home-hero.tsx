@@ -1,7 +1,7 @@
 "use client";
 
-import { ArtShot } from "@/components/landing/art-shot";
 import { PrimaryButton, SecondaryButton } from "@/components/landing/buttons";
+import { HeroVideo } from "@/components/landing/hero-video";
 import { OsMark, useOs } from "@/components/landing/platform";
 
 export default function HomeHero() {
@@ -24,13 +24,7 @@ export default function HomeHero() {
         <SecondaryButton href="/docs">Documentation</SecondaryButton>
       </div>
 
-      <ArtShot
-        name="terminal-browser"
-        alt="Sentinel with an agent thread, the built-in terminal running tests and the built-in browser previewing the app"
-        wallpaper="dawn"
-        priority
-        className="mt-12 sm:mt-16"
-      />
+      <HeroVideo className="mt-12 sm:mt-16" />
     </section>
   );
 }

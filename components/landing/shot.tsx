@@ -2,7 +2,6 @@
 
 // Pixel sizes of the 2x captures in public/screenshots (light and dark match).
 const SHOTS = {
-  "terminal-browser": [2880, 1800],
   "composer-engines": [2880, 1800],
   "engines-usage": [2880, 1800],
   "approvals": [2880, 1800],
