@@ -14,7 +14,7 @@ export function baseOptions(): BaseLayoutProps {
         <Logo linked={false} showText textClassName="text-base font-semibold" />
       ),
       url: "/",
-      transparentMode: "top",
+      transparentMode: "none",
     },
     githubUrl: "https://github.com/Cronacl/sentinel",
     links: [

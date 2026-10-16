@@ -9,7 +9,7 @@ const LINKS = [
 
 export default function HomeNav() {
   return (
-    <header className="sticky top-0 z-50 bg-fd-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-fd-border bg-fd-background">
       <nav className="mx-auto grid h-14 max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center px-5 sm:px-8">
         <Link href="/" className="flex items-center gap-2" aria-label="Sentinel home">
           <SentinelLogoMark className="h-4 w-4" />
