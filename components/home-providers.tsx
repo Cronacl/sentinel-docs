@@ -4,6 +4,15 @@ import {
   GoogleLogo,
   AzureLogo,
   OllamaLogo,
+  XAILogo,
+  CursorAgentLogo,
+  OpenCodeLogo,
+  AntigravityLogo,
+  PiLogo,
+  AcpLogo,
+  GeminiCliLogo,
+  DevinLogo,
+  MistralVibeLogo,
   GitHubLogo,
   GmailLogo,
   SlackLogo,
@@ -17,6 +26,21 @@ type ProviderItem = {
   name: string;
   Icon: ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
 };
+
+const AGENTS: ProviderItem[] = [
+  { name: "Claude", Icon: AnthropicLogo },
+  { name: "Codex", Icon: OpenAILogo },
+  { name: "Copilot", Icon: GitHubLogo },
+  { name: "Cursor", Icon: CursorAgentLogo },
+  { name: "OpenCode", Icon: OpenCodeLogo },
+  { name: "Grok Build", Icon: XAILogo },
+  { name: "Antigravity", Icon: AntigravityLogo },
+  { name: "Pi", Icon: PiLogo },
+  { name: "Gemini CLI", Icon: GeminiCliLogo },
+  { name: "Devin", Icon: DevinLogo },
+  { name: "Mistral Vibe", Icon: MistralVibeLogo },
+  { name: "ACP Registry", Icon: AcpLogo },
+];
 
 const AI_PROVIDERS: ProviderItem[] = [
   { name: "OpenAI", Icon: OpenAILogo },
@@ -48,9 +72,23 @@ export default function HomeProviders() {
   return (
     <section className="mx-auto max-w-[960px] px-6 pb-10">
       <div className="grid gap-2 sm:grid-cols-2">
+        <div className="rounded-lg border border-fd-border bg-fd-card px-3.5 py-3 sm:col-span-2">
+          <div className="flex items-baseline justify-between mb-2.5">
+            <h3 className="text-[12px] font-medium">Coding agents</h3>
+            <span className="text-[10px] text-fd-muted-foreground/40">
+              Your own accounts
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {AGENTS.map((a) => (
+              <Pill key={a.name} item={a} />
+            ))}
+          </div>
+        </div>
+
         <div className="rounded-lg border border-fd-border bg-fd-card px-3.5 py-3">
           <div className="flex items-baseline justify-between mb-2.5">
-            <h3 className="text-[12px] font-medium">14+ AI providers</h3>
+            <h3 className="text-[12px] font-medium">15+ AI providers</h3>
             <span className="text-[10px] text-fd-muted-foreground/40">BYOK</span>
           </div>
           <div className="flex flex-wrap gap-1.5">

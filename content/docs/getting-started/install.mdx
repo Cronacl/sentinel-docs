@@ -10,15 +10,37 @@ Release builds are published on GitHub Releases:
 
 - [Download Sentinel](https://github.com/Cronacl/Sentinel/releases)
 
-Current release targets:
+| Platform | Package                       | Requirements                                                     |
+| -------- | ----------------------------- | ---------------------------------------------------------------- |
+| macOS    | DMG                           | macOS 13 (Ventura) or later                                      |
+| Windows  | NSIS installer                | 64-bit Windows 10 or later                                       |
+| Linux    | AppImage, DEB, RPM (x64 and arm64) | glibc 2.34 and libstdc++ from GCC 11 or newer, for example Ubuntu 22.04, Debian 12, Fedora 35, or RHEL 9 |
 
-- macOS: DMG
-- Windows: NSIS installer
-- Linux: AppImage
+Electron 44 dropped macOS 12, 32-bit Windows, and 32-bit ARM Linux, so Sentinel no longer ships for them. Copies already installed on macOS 12 keep working, but the in-app updater no longer offers them new versions.
+
+## Coding agents
+
+The built-in `sentinel` engine only needs a [provider](/docs/configuration/providers-and-models).
+
+The other engines run local coding agents, and each one needs its CLI. You can install most of them from **Settings → Engines**, which shows the exact command and runs it only after you confirm:
+
+- Copilot's runtime is bundled with Sentinel.
+- Antigravity's server is downloaded and installed by Sentinel.
+- ACP Registry agents install from the registry browser.
+- Claude, Codex, Cursor, OpenCode, Grok Build, and Pi install with npm or their official install scripts.
+
+See the [engines overview](/docs/engines-and-runtime/engines-overview) for sign-in, updates, and supported versions.
 
 ## Run from source
 
-Sentinel uses Bun.
+### Prerequisites
+
+- [Bun](https://bun.sh) 1.4 or later
+- Node.js 24 LTS (see `.nvmrc`)
+- On Linux, build tools for `node-pty`, which has no prebuilt Linux binary: `build-essential`, `python3`, `make`, and `g++`
+- On macOS and Windows, build tools only if the native repair step asks for them: Xcode Command Line Tools on macOS, or Visual Studio Build Tools with Desktop development with C++ on Windows
+
+### Run locally
 
 ```bash
 bun install
@@ -29,6 +51,8 @@ bun run dev:desktop
 The app runs at `http://localhost:3232`.
 
 `ENCRYPTION_KEY` can be left empty in `.env`. Sentinel generates one on first desktop launch.
+
+Electron no longer downloads its binary during `bun install`. `bun run dev:desktop` and the desktop build commands fetch it on first use; run `bun run electron:install` to download it ahead of time.
 
 ## Build commands
 

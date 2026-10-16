@@ -17,7 +17,7 @@ That includes the obvious things like messages and mode, but a lot of the produc
 | Workspace state          | Workspace link, working directory, project root                                  |
 | Queue and approval state | Queued follow-ups, pending approvals, status transitions                         |
 | Repo state               | Active branch, project mode, worktree path, checkpoint pointers, linked PR state |
-| Engine-specific state    | Codex thread ID and sandbox policy, Claude session ID and permission mode, Copilot session ID and reasoning effort |
+| Engine-specific state    | The engine instance, plus the agent's own session: Codex thread ID and sandbox policy, Claude session ID and permission mode, an ACP or OpenCode session ID, and so on |
 
 That is why reopening a thread can feel like resuming work instead of opening a saved transcript.
 
@@ -33,8 +33,13 @@ That shared layer covers the title, archived state, workspace link, messages, pl
 | Codex-only state    | Codex thread ID, approval policy, sandbox mode, reasoning effort, runtime model, CLI version |
 | Claude-only state   | Claude session ID, permission mode, runtime model, working directory                         |
 | Copilot-only state  | Copilot session ID, reasoning effort, runtime model, working directory                       |
+| ACP agent state     | Session ID, mode, model, reasoning effort, config values, last synced message (Cursor, Grok Build, Antigravity, registry agents) |
+| OpenCode state      | Session ID, server generation, model, selected agent and variant, last synced message       |
+| Pi state            | Session file, model, thinking level, last synced message                                     |
 
 So the thread is carrying both the shared product state and the engine-specific session state.
+
+Engine state is stamped with the [instance](/docs/engines-and-runtime/engines-overview#instances) it was made on. Another instance, or the same agent with a different home, never resumes it.
 
 ## Why the thread sits in the middle
 

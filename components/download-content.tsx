@@ -68,6 +68,10 @@ export default function DownloadContent({
           <p className="mt-0.5 text-[12px] text-fd-muted-foreground">
             Installers from the latest GitHub release.
           </p>
+          <p className="mt-0.5 text-[11px] text-fd-muted-foreground/60">
+            macOS 13 or later · 64-bit Windows 10 or later · Linux with glibc
+            2.34
+          </p>
         </div>
         {version || publishedLabel ? (
           <p className="text-[10px] text-fd-muted-foreground/35">

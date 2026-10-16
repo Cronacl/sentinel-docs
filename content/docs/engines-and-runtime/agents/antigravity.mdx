@@ -1,0 +1,48 @@
+---
+title: "Antigravity"
+description: "Google Antigravity inside Sentinel, through its ACP server."
+---
+
+Sentinel can run a thread on Google Antigravity.
+
+It runs Google's Antigravity ACP server, `agy-acp-server`, on the shared ACP engine. Antigravity support is experimental.
+
+## Setup
+
+Sentinel installs the server itself. Choose install on the Antigravity card: it downloads the release for your platform, checks it against pinned SHA-256 hashes, and keeps it in Sentinel's own state folder.
+
+| What            | Details                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| Install         | From the Antigravity card; nothing to install by hand                       |
+| Version         | `agy-acp-server` 1.3.0                                                      |
+| Profile         | A private profile per instance, managed by Sentinel                         |
+| Binary override | The instance's binary path, or `SENTINEL_ANTIGRAVITY_PATH` for the default instance |
+
+The server unpacks about 1 GB into the temp folder each time it starts. Status checks read the version and sign-in from disk instead, so they never start it.
+
+Each instance always runs on its own private profile, so there is no home directory to set. Two instances are two separate Google sign-ins.
+
+## Sign-in
+
+Sign in from the Antigravity card, not from a chat.
+
+- **Sign in with Google** opens Google's sign-in page. Signing in from another computer works too: paste the address it sends you to back into the card.
+- **Gemini Enterprise** is the Google sign-in for Gemini Enterprise. It needs a Google Cloud project and location.
+- **Use a Gemini API key** stores the key encrypted on the instance as `GEMINI_API_KEY`.
+- **Agent Platform API key** stores a Google Cloud API key encrypted as `GOOGLE_API_KEY`.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Accept edits*, and *Full*, sent to Antigravity as its session mode.
+- **Plan mode**: none. Antigravity has no plan mode of its own for Sentinel to drive.
+- **Models** come from Sentinel's engine manifest.
+- **File edits** come back as approvals, because Sentinel serves the agent's file reads and writes.
+- **Subagents** Antigravity starts get their own cards.
+- **Images** can be attached to a prompt, and **MCP servers** from Settings are passed to Antigravity.
+- **Slash commands** Antigravity reports appear in the composer's slash menu.
+
+## Code references
+
+- [`acp/agents/antigravity.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/agents/antigravity.ts)
+- [`acp/antigravity/install.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/antigravity/install.ts)
+- [`acp/antigravity/auth-url.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/antigravity/auth-url.ts)

@@ -1,0 +1,44 @@
+---
+title: "Agents"
+description: "The local coding agents Sentinel can drive, side by side."
+---
+
+Sentinel can run a thread on any of these agents. Each one runs locally, under your own account, and Sentinel keeps the thread, the workspace, and the repo state around it.
+
+The [engines overview](/docs/engines-and-runtime/engines-overview) covers what they share: instances, homes, install and update, sign-in, usage limits, skills, and the engine manifest.
+
+## At a glance
+
+| Agent                                                   | Permission modes                 | Plan mode                          | Usage limits      | Images |
+| ------------------------------------------------------- | -------------------------------- | ---------------------------------- | ----------------- | ------ |
+| [Claude](/docs/engines-and-runtime/agents/claude)       | Default, Full                    | Claude's own                       | Yes               | Yes    |
+| [Codex](/docs/engines-and-runtime/agents/codex)         | Default, Full                    | Codex's own                        | Yes               | Yes    |
+| [Copilot](/docs/engines-and-runtime/agents/copilot)     | Default, Full                    | Sentinel's plan prompt             | No                | No     |
+| [Cursor](/docs/engines-and-runtime/agents/cursor)       | Default, Accept edits, Full      | Cursor's own                       | Yes               | Yes    |
+| [OpenCode](/docs/engines-and-runtime/agents/opencode)   | Default, Accept edits, Full      | OpenCode's plan agent              | OpenCode Go       | Yes    |
+| [Grok Build](/docs/engines-and-runtime/agents/grok)     | Default, Auto, Full              | Sentinel's plan prompt, plan card  | Billing credits   | Yes    |
+| [Antigravity](/docs/engines-and-runtime/agents/antigravity) | Default, Accept edits, Full  | None                               | No                | Yes    |
+| [Pi](/docs/engines-and-runtime/agents/pi)               | Default, Accept edits, Full      | None                               | No                | Yes    |
+| [ACP Registry](/docs/engines-and-runtime/agents/acp-registry) | Default, Accept edits, Full | The agent's own, else the plan prompt | No            | When the agent accepts them |
+
+**Permission modes** are Sentinel's: *Default* limits tools to the selected workspace, *Accept edits* applies file edits without asking while other actions still ask, *Auto* lets the agent decide what needs approval, and *Full* lets tools reach any path on the machine. Each agent maps them to its own settings.
+
+**Plan mode** either uses the agent's own plan mode or, where there is none, Sentinel's plan prompt, which asks the agent to plan before it edits.
+
+## Where each agent keeps its state
+
+| Agent        | Home per instance               | Skills folder (global / workspace)                |
+| ------------ | ------------------------------- | ------------------------------------------------- |
+| Claude       | `CLAUDE_CONFIG_DIR`             | `~/.claude/skills` / `.claude/skills`             |
+| Codex        | `CODEX_HOME`                    | `~/.codex/skills` (global only)                   |
+| Copilot      | `COPILOT_HOME`                  | `~/.copilot/skills` / `.github/skills`            |
+| Cursor       | Shared with the CLI             | `~/.cursor/skills` / `.cursor/skills`             |
+| OpenCode     | Shared with the CLI             | `~/.config/opencode/skills` / `.opencode/skills`  |
+| Grok Build   | `GROK_HOME`                     | Managed by Grok                                   |
+| Antigravity  | A private profile, always       | None                                              |
+| Pi           | Shared with the CLI             | Managed by Pi                                     |
+| ACP Registry | Shared with the agent           | None                                              |
+
+## Stability
+
+Claude, Codex, Copilot, Cursor, and OpenCode are stable. Grok Build, Antigravity, Pi, and ACP Registry agents are experimental: they work, but expect rough edges.

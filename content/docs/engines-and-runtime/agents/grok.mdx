@@ -1,0 +1,45 @@
+---
+title: "Grok Build"
+description: "xAI's Grok Build agent inside Sentinel, on the shared ACP engine."
+---
+
+Sentinel can run a thread on Grok Build, xAI's coding agent CLI.
+
+It starts `grok agent stdio` and talks to it over ACP, on the same engine that carries Cursor, Antigravity, and registry agents. Grok Build support is experimental.
+
+## Setup
+
+| What            | Details                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| Install         | `npm install -g @xai-official/grok`, or `curl -fsSL https://x.ai/cli/install.sh \| bash` |
+| Update          | `grok update`                                                               |
+| Required        | Grok 1.0.13 or newer; older builds predate the agent protocol Sentinel drives |
+| Home variable   | `GROK_HOME`                                                                 |
+
+## Sign-in
+
+- **Sign in with Grok** runs `grok login` in a terminal inside the Grok card; approve the sign-in in your browser.
+- **Use an xAI API key** stores the key encrypted on the instance as `XAI_API_KEY`.
+
+## Running a thread
+
+- **Permission modes**: *Default*, *Auto*, and *Full*. Grok has no accept-edits mode. The mode is a launch flag, so changing it restarts the Grok process.
+- **Plan mode**: Sentinel's plan prompt. When Grok finishes its plan, it shows up as a plan card.
+- **Questions** Grok asks become question cards.
+- **Background tasks and subagents** get their own cards. Stopping a turn stops them with it.
+- **Models** come from Grok, with the reasoning efforts each one offers.
+- **Images** can be attached to a prompt, and **MCP servers** from Settings are passed to Grok.
+
+## Usage limits
+
+The Grok card and the composer show the credit percentage of the grok.com login the CLI uses. Accounts set up any other way, such as an API key, are left alone: nothing is read or sent for them.
+
+## Skills and slash commands
+
+Grok reports its slash commands, and the composer's slash menu offers them. Sentinel also reads Grok's skills with `grok inspect --json`, but skills for Grok are managed in Grok itself.
+
+## Code references
+
+- [`acp/agents/grok.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/acp/agents/grok.ts)
+- [`usage/grok.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/usage/grok.ts)
+- [`state/acp.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/acp.ts)

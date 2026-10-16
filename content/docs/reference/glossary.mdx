@@ -20,7 +20,15 @@ A structured thread mode with a stored plan document, tracked tasks, and questio
 
 ## Engine
 
-The runtime layer used for a thread. Sentinel supports `sentinel`, `codex`, `claude`, and `copilot`.
+The runtime layer used for a thread. Sentinel supports `sentinel`, `codex`, `claude`, `copilot`, `cursor`, `opencode`, `grok`, `antigravity`, `pi`, and `acp`.
+
+## Engine instance
+
+One configured copy of an agent: its label, binary, environment variables, custom models, and, where the agent has one, its home directory.
+
+## ACP
+
+The Agent Client Protocol. Cursor, Grok Build, Antigravity, and ACP Registry agents talk to Sentinel over it.
 
 ## Provider
 

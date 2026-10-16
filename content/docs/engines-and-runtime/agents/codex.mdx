@@ -1,12 +1,33 @@
 ---
-title: "Codex runtime"
+title: "Codex"
+description: "The Codex CLI inside Sentinel, through the Codex app-server."
 ---
 
-Sentinel can hand a thread off to the local Codex runtime and still keep the rest of the app around it.
+Sentinel can hand a thread off to the local Codex runtime and still keep the rest of the app around it. It talks to Codex through the Codex app-server.
 
 That split matters.
 
 Codex is driving the run. Sentinel is still carrying the thread, the workspace, the repo panels, the settings, and the rest of the shell.
+
+## Setup
+
+| What            | Details                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------- |
+| Install         | `npm install -g @openai/codex`, or the official install script (PowerShell on Windows)      |
+| Update          | `codex update` for the standalone install, otherwise npm                                    |
+| Recommended     | Codex 0.160 or newer; 0.149 to 0.155 work with a plan mode fallback, and rollback may fail |
+| Home variable   | `CODEX_HOME`                                                                                |
+| Binary override | The instance's binary path, or `SENTINEL_CODEX_PATH` for the default instance               |
+
+## Sign-in
+
+All three run from the Codex card:
+
+- **Sign in with ChatGPT** opens the ChatGPT sign-in in your browser.
+- **Use a device code** shows a code to enter on another device.
+- **Use an API key** hands an OpenAI API key to Codex, which stores it in its own home.
+
+Codex reports its plan rate limits, so the composer and the Codex card show the current usage windows.
 
 ## What Sentinel keeps for a Codex thread
 
@@ -21,7 +42,7 @@ Codex is driving the run. Sentinel is still carrying the thread, the workspace, 
 | CLI version        | Helps explain runtime behavior across local installs    |
 | Pending turn state | Lets Sentinel keep track of work still in flight        |
 
-That state lives with the Sentinel thread, so the app can reopen the thread and still know how it was wired.
+That state lives with the Sentinel thread, stamped with the instance it ran on, so the app can reopen the thread and still know how it was wired.
 
 The important split is simple. Sentinel owns the durable thread record. Codex owns the active local runtime session.
 
@@ -54,7 +75,7 @@ So the model picker is doing two jobs at once. It shows what the local runtime a
 
 ## Codex-specific thread actions
 
-Codex has extra thread actions that do not apply to the other engines:
+Codex has extra thread actions that do not apply to the other engines. Compact, review, and rollback are also in the composer's slash menu, where Sentinel runs them through the app-server:
 
 - review
 - rollback
@@ -102,6 +123,7 @@ The Codex state surface is defined explicitly in the runtime types:
 
 ```ts
 export const codexThreadStateSchema = z.object({
+  ...threadStateSessionMeta,
   approvalPolicy: codexApprovalPolicySchema.nullish(),
   cliVersion: z.string().nullish(),
   codexThreadId: z.string(),
@@ -114,25 +136,25 @@ export const codexThreadStateSchema = z.object({
 });
 ```
 
-The compact action is also exposed directly through the engine router:
+The compact action is exposed through the Codex engine router:
 
 ```ts
-codexCompact: protectedProcedure
-  .input(z.object({ threadId: z.string() }))
+compact: protectedProcedure
+  .input(threadInputSchema)
   .mutation(async ({ ctx, input }) => {
-    const codexThreadId = await resolveCodexThreadId(ctx, input.threadId);
-    const codex = getCodexAppServerManager();
+    const { codex, codexThreadId } = await resolveCodexThread(
+      ctx,
+      input.threadId,
+    );
     return codex.compactThread(codexThreadId);
   }),
 ```
 
 ## What stays in Sentinel
 
-Even when Codex is running the thread, Sentinel still owns:
-
-Sentinel still owns workspace selection, thread history, repo panels, the terminal and browser shell, settings, and sidebar state. So the Codex runtime is deep in the loop, but it is still one layer inside a larger thread model.
+Even when Codex is running the thread, Sentinel still owns workspace selection, thread history, repo panels, the terminal and browser shell, settings, and sidebar state. So the Codex runtime is deep in the loop, but it is still one layer inside a larger thread model.
 
 ## Code references
 
-- [`types.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/types.ts)
-- [`engines.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/server/api/routers/engines.ts)
+- [`state/codex.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/lib/ai/chat/engines/state/codex.ts)
+- [`routers/engines/codex.ts`](https://github.com/Cronacl/Sentinel/blob/main/src/server/api/routers/engines/codex.ts)
