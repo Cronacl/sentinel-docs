@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
+import HomeAgents from "@/components/home-agents";
+import HomeChapters from "@/components/home-chapters";
 import HomeCTA from "@/components/home-cta";
-import HomeFeatures from "@/components/home-features";
 import HomeHero from "@/components/home-hero";
-import HomeProviders from "@/components/home-providers";
 
 export const metadata: Metadata = {
-  title: "Sentinel — AI-powered software work",
+  title: "Sentinel — every coding agent, one workspace",
   description:
-    "A desktop app for doing software work with AI inside a local project. Workspace-aware, multi-engine, with a built-in terminal and browser.",
+    "A free desktop app to run Claude, Codex, Copilot, Cursor, Grok Build, Antigravity, Pi and ACP agents side by side, in your own projects.",
 };
 
 export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <HomeFeatures />
-      <HomeProviders />
+      <HomeAgents />
+      <HomeChapters />
       <HomeCTA />
     </>
   );
