@@ -27,7 +27,7 @@ export default function HomeHero() {
       <ArtShot
         name="terminal-browser"
         alt="Sentinel with an agent thread, the built-in terminal running tests and the built-in browser previewing the app"
-        seed={7}
+        wallpaper="dawn"
         priority
         className="mt-12 sm:mt-16"
       />

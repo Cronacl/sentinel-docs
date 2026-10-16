@@ -245,7 +245,6 @@
   --color-fd-accent-foreground: #26251e;
   --color-fd-ring: #b5b3ab;
   --color-link: #e25d12;
-  --color-art-ink: #26251e;
 }
 
 .dark,
@@ -267,7 +266,6 @@
   --color-fd-accent-foreground: #edece8;
   --color-fd-ring: #4a4944;
   --color-link: #f2783a;
-  --color-art-ink: #edece8;
 }
 
 /* The app window floating on an artwork panel. */

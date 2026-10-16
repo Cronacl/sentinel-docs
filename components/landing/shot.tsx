@@ -3,9 +3,9 @@
 // Pixel sizes of the 2x captures in public/screenshots (light and dark match).
 const SHOTS = {
   "terminal-browser": [2880, 1800],
-  "composer-engines-crop": [1440, 1240],
-  "engines-usage-crop": [1430, 1215],
-  "approvals-crop": [1360, 1060],
+  "composer-engines": [2880, 1800],
+  "engines-usage": [2880, 1800],
+  "approvals": [2880, 1800],
 } as const;
 
 export type ShotName = keyof typeof SHOTS;
