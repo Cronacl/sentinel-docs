@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AnthropicLogo, OpenAILogo, XAILogo } from "@/components/brand-icons";
+import { BrandMark, type MarkName } from "@/components/brand-marks";
 
 function Card({ title, body, children }: { title: string; body: string; children: ReactNode }) {
   return (
@@ -49,14 +49,14 @@ export default function HomeFlex() {
 
         <Card title="Usage limits" body="Plan usage from each account, next to the agent picker.">
           {[
-            { name: "Claude", used: 34, Icon: AnthropicLogo },
-            { name: "Codex", used: 12, Icon: OpenAILogo },
-            { name: "Grok", used: 9, Icon: XAILogo },
-          ].map(({ name, used, Icon }) => (
+            { name: "Claude", used: 34, mark: "claude" },
+            { name: "Codex", used: 12, mark: "codex" },
+            { name: "Grok", used: 9, mark: "grok" },
+          ].map(({ name, used, mark }) => (
             <div key={name} className="py-1.5">
               <div className="flex items-center justify-between text-[12.5px]">
                 <span className="flex items-center gap-1.5">
-                  <Icon size={11} />
+                  <BrandMark name={mark as MarkName} size={12} />
                   {name}
                 </span>
                 <span className="text-fd-muted-foreground tabular-nums">{used}%</span>

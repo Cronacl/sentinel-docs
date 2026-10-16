@@ -70,7 +70,16 @@ const millionaire = localFont({
   variable: "--font-millionaire",
 });
 
+// Absolute URLs for the share images: NEXT_PUBLIC_SITE_URL when set, else
+// the Vercel production domain.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Sentinel Docs",
     template: "%s | Sentinel Docs",

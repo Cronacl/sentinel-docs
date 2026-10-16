@@ -5,7 +5,7 @@ import DownloadContent, {
 } from "@/components/download-content";
 
 export const metadata: Metadata = {
-  title: "Download Sentinel",
+  title: { absolute: "Download Sentinel" },
   description: "Download Sentinel for macOS, Windows, or Linux.",
 };
 

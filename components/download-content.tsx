@@ -2,12 +2,10 @@
 
 import { Download04Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
-import type { ComponentType, SVGProps } from "react";
-import { useSyncExternalStore } from "react";
-import { AppleLogo, TerminalLogo, WindowsLogo } from "@/components/brand-icons";
+import { OsMark, useOs, type Os } from "@/components/landing/platform";
 import Icon from "@/components/icon";
 
-type Os = "macOS" | "Windows" | "Linux";
+
 
 export type DownloadFile = { label: string; url: string };
 
@@ -23,21 +21,9 @@ type DownloadContentProps = {
   publishedAt?: string;
 };
 
-const OS_ICONS: Record<Os, ComponentType<SVGProps<SVGSVGElement> & { size?: number }>> = {
-  Linux: TerminalLogo,
-  Windows: WindowsLogo,
-  macOS: AppleLogo,
-};
 
-function detectOs(): Os | null {
-  const agent = navigator.userAgent;
-  if (/Mac/i.test(agent) && !/iPhone|iPad/i.test(agent)) return "macOS";
-  if (/Windows/i.test(agent)) return "Windows";
-  if (/Linux/i.test(agent) && !/Android/i.test(agent)) return "Linux";
-  return null;
-}
 
-const subscribeToNothing = () => () => {};
+
 
 export default function DownloadContent({
   groups,
@@ -45,7 +31,7 @@ export default function DownloadContent({
   version,
   publishedAt,
 }: DownloadContentProps) {
-  const os = useSyncExternalStore(subscribeToNothing, detectOs, () => null);
+  const os = useOs();
   const published = publishedAt
     ? new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(
         new Date(publishedAt),
@@ -58,10 +44,14 @@ export default function DownloadContent({
   return (
     <div className="mx-auto max-w-[1200px] px-5 pt-14 pb-24 sm:px-8 sm:pt-20 sm:pb-32">
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-        <div className="flex size-[88px] shrink-0 items-center justify-center rounded-[20px] bg-fd-card">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.png" alt="" width={64} height={64} className="size-16 rounded-[14px]" />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/icon.png"
+          alt=""
+          width={88}
+          height={88}
+          className="size-[88px] shrink-0 drop-shadow-[0_6px_14px_rgb(0_0_0/0.18)]"
+        />
         <div>
           <h1 className="text-[1.375rem] leading-[1.3] font-normal tracking-[-0.01em]">
             Download Sentinel
@@ -94,11 +84,10 @@ export default function DownloadContent({
 
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           {groups.map((group) => {
-            const OsIcon = OS_ICONS[group.os];
             return (
               <div key={group.os} className="rounded-[6px] bg-fd-card px-4 pt-4 pb-2">
                 <p className="flex items-center gap-2 text-[14px]">
-                  <OsIcon size={14} />
+                  <OsMark os={group.os} size={14} />
                   {group.os}
                 </p>
                 <ul className="mt-3">

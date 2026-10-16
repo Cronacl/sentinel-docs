@@ -6,7 +6,7 @@ import HomeFlex from "@/components/home-flex";
 import HomeHero from "@/components/home-hero";
 
 export const metadata: Metadata = {
-  title: "Sentinel — every coding agent, one workspace",
+  title: { absolute: "Sentinel — every coding agent, one workspace" },
   description:
     "A free desktop app to run Claude, Codex, Copilot, Cursor, Grok Build, Antigravity, Pi and ACP agents side by side, in your own projects.",
 };

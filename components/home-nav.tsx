@@ -35,6 +35,12 @@ export default function HomeNav() {
           )}
         </div>
         <div className="col-start-3 flex items-center justify-end gap-2">
+          <Link
+            href="/docs"
+            className="px-2 text-[14px] text-fd-muted-foreground transition-colors hover:text-fd-foreground md:hidden"
+          >
+            Docs
+          </Link>
           <a
             href="https://github.com/Cronacl/sentinel"
             target="_blank"

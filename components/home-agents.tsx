@@ -1,55 +1,55 @@
-import type { ComponentType, SVGProps } from "react";
-import {
-  AcpLogo,
-  AnthropicLogo,
-  AntigravityLogo,
-  CursorAgentLogo,
-  DevinLogo,
-  GeminiCliLogo,
-  GitHubLogo,
-  MistralVibeLogo,
-  OpenAILogo,
-  OpenCodeLogo,
-  PiLogo,
-  XAILogo,
-} from "@/components/brand-icons";
+import Link from "next/link";
+import { BrandMark, markLabel, type MarkName } from "@/components/brand-marks";
 
-type Agent = {
-  name: string;
-  Icon: ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
-};
-
-const AGENTS: Agent[] = [
-  { name: "Claude", Icon: AnthropicLogo },
-  { name: "Codex", Icon: OpenAILogo },
-  { name: "Copilot", Icon: GitHubLogo },
-  { name: "Cursor", Icon: CursorAgentLogo },
-  { name: "OpenCode", Icon: OpenCodeLogo },
-  { name: "Grok Build", Icon: XAILogo },
-  { name: "Antigravity", Icon: AntigravityLogo },
-  { name: "Pi", Icon: PiLogo },
-  { name: "Gemini CLI", Icon: GeminiCliLogo },
-  { name: "Devin", Icon: DevinLogo },
-  { name: "Mistral Vibe", Icon: MistralVibeLogo },
-  { name: "ACP Registry", Icon: AcpLogo },
+// Built-in drivers first, then agents installable from the ACP Registry.
+const AGENTS: MarkName[] = [
+  "claude",
+  "codex",
+  "copilot",
+  "cursor",
+  "opencode",
+  "grok",
+  "antigravity",
+  "pi",
+  "geminicli",
+  "devin",
+  "mistral",
+  "goose",
+  "qwen",
+  "kimi",
+  "junie",
+  "amp",
+  "cline",
 ];
 
 export default function HomeAgents() {
   return (
-    <section className="mx-auto max-w-[1200px] px-5 pt-20 sm:px-8 sm:pt-28">
-      <p className="text-center text-[14px] text-fd-muted-foreground">
-        Works with the agents you already use, on your own accounts
-      </p>
-      <ul className="mx-auto mt-8 flex max-w-[960px] flex-wrap justify-center gap-x-10 gap-y-5">
-        {AGENTS.map(({ name, Icon }) => (
+    <section className="mx-auto max-w-[1200px] px-5 pt-24 sm:px-8 sm:pt-32">
+      <h2 className="text-center text-[1.375rem] leading-[1.3] font-normal tracking-[-0.01em] text-balance">
+        Works with the agents you already use
+        <span className="block text-fd-muted-foreground">
+          On your own accounts, with their own CLIs.
+        </span>
+      </h2>
+      <ul className="mt-12 grid grid-cols-3 gap-px overflow-hidden rounded-[6px] bg-fd-border lg:grid-cols-6">
+        {AGENTS.map((name) => (
           <li
             key={name}
-            className="flex items-center gap-2 text-[15px] text-fd-muted-foreground"
+            className="flex h-[84px] flex-col items-center justify-center gap-2 bg-fd-background px-2 text-center text-[13px] sm:flex-row sm:gap-2.5 sm:text-[15px]"
           >
-            <Icon size={16} className="shrink-0" />
-            {name}
+            <BrandMark name={name} size={18} className="shrink-0" />
+            {markLabel(name)}
           </li>
         ))}
+        <li className="bg-fd-background">
+          <Link
+            href="/docs/engines-and-runtime/agents/acp-registry"
+            className="flex h-[84px] items-center justify-center gap-1 px-2 text-center text-[13px] text-fd-muted-foreground transition-colors hover:text-fd-foreground sm:text-[15px]"
+          >
+            40+ more via ACP
+            <span aria-hidden>→</span>
+          </Link>
+        </li>
       </ul>
     </section>
   );

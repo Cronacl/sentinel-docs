@@ -14,25 +14,25 @@ type Chapter = {
 const CHAPTERS: Chapter[] = [
   {
     title: "Any agent, per thread",
-    body: "Claude, Codex, Copilot, Cursor, Grok Build, Antigravity, Pi or anything in the ACP Registry, on your own accounts.",
+    body: "Pick Claude, Codex, Cursor, Grok or any ACP agent for each thread.",
     link: { label: "Learn about agents", href: "/docs/engines-and-runtime/agents" },
-    shot: "composer-engines",
+    shot: "composer-engines-crop",
     alt: "The composer's agent picker listing every supported coding agent",
     seed: 21,
   },
   {
     title: "Agents, managed for you",
-    body: "Install, update and sign in from one place. Watch usage limits and run separate instances for work and personal accounts.",
+    body: "Install, sign in and watch usage limits for every agent in one place.",
     link: { label: "Learn about engines", href: "/docs/engines-and-runtime/engines-overview" },
-    shot: "engines-usage",
+    shot: "engines-usage-crop",
     alt: "Settings → Engines with usage limits for Codex, Claude, Copilot, Cursor, OpenCode and Grok",
     seed: 34,
   },
   {
     title: "Nothing runs without you",
-    body: "Approve edits and commands once or always. Plans, questions and tool calls show up right in the thread.",
+    body: "Plans and commands wait for your approval, right in the thread.",
     link: { label: "Learn about approvals", href: "/docs/workflows/approvals-and-subagents" },
-    shot: "approvals",
+    shot: "approvals-crop",
     alt: "A plan with tasks and a pending approval for an agent's command",
     seed: 55,
   },
@@ -58,6 +58,7 @@ export default function HomeChapters() {
             alt={chapter.alt}
             seed={chapter.seed}
             className="rounded-none bg-fd-muted"
+            maxWidth={520}
           />
         </section>
       ))}
