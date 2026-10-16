@@ -5,6 +5,8 @@ import { useEffect, useRef } from "react";
 
 // The product film, muted and looping with no controls. Phones get the
 // 720p encode; reduced-motion visitors see the poster frame instead.
+// Muted web encodes of Introduction-sentinel.mp4, served from the bucket.
+const ASSETS = "https://storage.googleapis.com/cronacl-public-assets/sentinel";
 export function HeroVideo({ className }: { className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const reduceMotion = useReducedMotion();
@@ -37,11 +39,11 @@ export function HeroVideo({ className }: { className?: string }) {
         loop
         muted
         playsInline
-        poster="/video/sentinel-hero-poster.webp"
+        poster={`${ASSETS}/sentinel-hero-poster.webp`}
         preload="auto"
       >
-        <source media="(max-width: 767px)" src="/video/sentinel-hero-720.mp4" type="video/mp4" />
-        <source src="/video/sentinel-hero-1080.mp4" type="video/mp4" />
+        <source media="(max-width: 767px)" src={`${ASSETS}/sentinel-hero-720.mp4`} type="video/mp4" />
+        <source src={`${ASSETS}/sentinel-hero-1080.mp4`} type="video/mp4" />
       </video>
     </div>
   );
