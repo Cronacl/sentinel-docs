@@ -224,82 +224,82 @@
   line-height: 1.5;
 }
 
-/* Landing page */
+/* Sentinel app palette: the same flat neutrals the desktop app uses. */
 
-.font-display-serif {
-  font-family: var(--font-millionaire), ui-serif, Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  font-feature-settings: "kern", "liga";
+:root,
+[data-theme="light"] {
+  --color-fd-background: #f9f9f9;
+  --color-fd-foreground: #0a0a0a;
+  --color-fd-card: #ffffff;
+  --color-fd-card-foreground: #0a0a0a;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #0a0a0a;
+  --color-fd-muted: #f2f2f2;
+  --color-fd-muted-foreground: #6b6b6b;
+  --color-fd-border: #e6e6e6;
+  --color-fd-primary: #0a0a0a;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #efefef;
+  --color-fd-secondary-foreground: #0a0a0a;
+  --color-fd-accent: #ededed;
+  --color-fd-accent-foreground: #0a0a0a;
+  --color-fd-ring: #a3a3a3;
 }
 
-/* A quiet grayscale backdrop with film grain for product shots. */
-.landing-canvas {
-  position: relative;
-  isolation: isolate;
+.dark,
+[data-theme="dark"] {
+  --color-fd-background: #111111;
+  --color-fd-foreground: #f5f5f5;
+  --color-fd-card: #080808;
+  --color-fd-card-foreground: #f5f5f5;
+  --color-fd-popover: #1c1c1c;
+  --color-fd-popover-foreground: #f5f5f5;
+  --color-fd-muted: #181818;
+  --color-fd-muted-foreground: #9a9a9a;
+  --color-fd-border: #232323;
+  --color-fd-primary: #f5f5f5;
+  --color-fd-primary-foreground: #0a0a0a;
+  --color-fd-secondary: #1c1c1c;
+  --color-fd-secondary-foreground: #f5f5f5;
+  --color-fd-accent: #1c1c1c;
+  --color-fd-accent-foreground: #ffffff;
+  --color-fd-ring: #404040;
+}
+
+/* Product screenshots sit flat in a hairline frame, like an app window. */
+.product-frame {
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 15% 0%, rgb(255 255 255 / 0.9), transparent 55%),
-    radial-gradient(90% 80% at 100% 100%, rgb(0 0 0 / 0.08), transparent 60%),
-    linear-gradient(160deg, #ececec, #d9d9d9);
+  border: 1px solid var(--color-fd-border);
+  border-radius: 12px;
+  background: var(--color-fd-card);
 }
 
-.dark .landing-canvas {
-  background:
-    radial-gradient(120% 90% at 15% 0%, rgb(255 255 255 / 0.16), transparent 55%),
-    radial-gradient(90% 80% at 100% 100%, rgb(255 255 255 / 0.05), transparent 60%),
-    linear-gradient(160deg, #2a2a2a, #121212);
+/* Docs: the app's sidebar and reading rhythm. */
+#nd-sidebar {
+  background: var(--color-fd-card);
 }
 
-.landing-canvas::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.22;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+#nd-sidebar a[data-active="true"] {
+  background: var(--color-fd-accent);
+  color: var(--color-fd-foreground);
+  font-weight: 500;
 }
 
-.dark .landing-canvas::after {
-  opacity: 0.35;
-  mix-blend-mode: screen;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+#nd-sidebar a[data-active="true"]::before {
+  display: none;
 }
 
-.landing-shot {
-  box-shadow:
-    0 0 0 1px rgb(0 0 0 / 0.08),
-    0 2px 4px rgb(0 0 0 / 0.04),
-    0 24px 60px -12px rgb(0 0 0 / 0.25);
+.prose {
+  --tw-prose-body: var(--color-fd-foreground);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
-.dark .landing-shot {
-  box-shadow:
-    0 0 0 1px rgb(255 255 255 / 0.08),
-    0 24px 60px -12px rgb(0 0 0 / 0.7);
+.prose :where(h2, h3):not(:where(.not-prose *)) {
+  font-weight: 500;
+  letter-spacing: -0.015em;
 }
 
-@keyframes landing-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.landing-marquee {
-  animation: landing-marquee 40s linear infinite;
-}
-
-.landing-marquee-mask {
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .landing-marquee {
-    animation: none;
-  }
+.prose :where(table):not(:where(.not-prose *)) {
+  font-size: 13.5px;
 }

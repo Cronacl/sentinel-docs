@@ -9,8 +9,8 @@ const LINKS = [
 
 export default function HomeNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-fd-border/50 bg-fd-background/75 backdrop-blur-xl">
-      <nav className="mx-auto flex h-14 max-w-[1120px] items-center justify-between px-5 sm:px-8">
+    <header className="sticky top-0 z-50 border-b border-fd-border/50 bg-fd-background">
+      <nav className="mx-auto flex h-14 max-w-[1200px] items-center justify-between px-5 sm:px-8">
         <Link href="/" className="flex items-center gap-2.5" aria-label="Sentinel home">
           <SentinelLogoMark className="h-4 w-4" />
           <span className="text-[14px] font-medium">Sentinel</span>
@@ -39,7 +39,7 @@ export default function HomeNav() {
           )}
           <Link
             href="/download"
-            className="inline-flex h-8 items-center rounded-full bg-fd-foreground px-3.5 text-[12.5px] font-medium text-fd-background transition-opacity hover:opacity-85"
+            className="inline-flex h-8 items-center rounded-full bg-fd-primary px-3.5 text-[12.5px] font-medium text-fd-primary-foreground transition-colors hover:bg-fd-primary/85"
           >
             Download
           </Link>

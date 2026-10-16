@@ -17,7 +17,7 @@ type ShotProps = {
   priority?: boolean;
 };
 
-/** A product screenshot in the visitor's theme. */
+/** A product screenshot in the visitor's theme, framed like the app window. */
 export function Shot({ name, alt, className, priority }: ShotProps) {
   const shared = {
     decoding: "async" as const,
@@ -27,9 +27,7 @@ export function Shot({ name, alt, className, priority }: ShotProps) {
   };
 
   return (
-    <div
-      className={`landing-shot overflow-hidden rounded-[10px] bg-fd-background ${className ?? ""}`}
-    >
+    <div className={`product-frame ${className ?? ""}`}>
       <img
         {...shared}
         alt={alt}
@@ -42,21 +40,6 @@ export function Shot({ name, alt, className, priority }: ShotProps) {
         src={`/screenshots/${name}-dark.webp`}
         className="hidden h-auto w-full dark:block"
       />
-    </div>
-  );
-}
-
-/** The grainy grayscale panel product shots sit on. */
-export function Canvas({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div className={`landing-canvas rounded-2xl ${className ?? ""}`}>
-      {children}
     </div>
   );
 }

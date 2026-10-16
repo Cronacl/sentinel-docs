@@ -1,4 +1,4 @@
-import { Canvas, Shot, type ShotName } from "@/components/landing/shot";
+import { Shot, type ShotName } from "@/components/landing/shot";
 
 type Chapter = {
   label: string;
@@ -34,25 +34,23 @@ const CHAPTERS: Chapter[] = [
 
 export default function HomeChapters() {
   return (
-    <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
+    <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
       {CHAPTERS.map((chapter, index) => (
-        <section key={chapter.label} className="pt-28 sm:pt-40">
-          <div className="grid gap-5 sm:grid-cols-2 sm:gap-10">
+        <section key={chapter.label} className="pt-24 sm:pt-36">
+          <div className="grid gap-4 border-t border-fd-border pt-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-16">
             <div>
-              <p className="font-mono text-[11px] tracking-[0.08em] text-fd-muted-foreground uppercase">
-                {String(index + 1).padStart(2, "0")} · {chapter.label}
+              <p className="text-[13px] text-fd-muted-foreground tabular-nums">
+                {String(index + 1).padStart(2, "0")} {chapter.label}
               </p>
-              <h2 className="font-display-serif mt-4 text-[2.1rem] leading-[1.05] text-balance sm:text-[3rem]">
+              <h2 className="mt-3 text-[2rem] leading-[1.08] font-medium tracking-[-0.03em] text-balance sm:text-[2.6rem]">
                 {chapter.title}
               </h2>
             </div>
-            <p className="max-w-[420px] self-end text-[15px] leading-relaxed text-pretty text-fd-muted-foreground sm:justify-self-end">
+            <p className="max-w-[420px] text-[16px] leading-relaxed text-pretty text-fd-muted-foreground lg:self-end">
               {chapter.body}
             </p>
           </div>
-          <Canvas className="mt-10 p-3 sm:mt-14 sm:p-10 lg:p-14">
-            <Shot name={chapter.shot} alt={chapter.alt} />
-          </Canvas>
+          <Shot name={chapter.shot} alt={chapter.alt} className="mt-10 sm:mt-14" />
         </section>
       ))}
     </div>

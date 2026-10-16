@@ -17,6 +17,10 @@ export function baseOptions(): BaseLayoutProps {
       transparentMode: "top",
     },
     githubUrl: "https://github.com/Cronacl/sentinel",
+    links: [
+      { text: "Home", url: "/" },
+      { text: "Download", url: "/download" },
+    ],
     searchToggle: {
       enabled: true,
     },

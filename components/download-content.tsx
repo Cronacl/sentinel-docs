@@ -1,130 +1,169 @@
-import { ArrowUpRight01Icon, Download04Icon } from "@hugeicons/core-free-icons";
-import type { IconSvgElement } from "@hugeicons/react";
-import type { ComponentType, SVGProps } from "react";
-import Icon from "@/components/icon";
-import {
-  AppleLogo,
-  WindowsLogo,
-  TerminalLogo,
-} from "@/components/brand-icons";
-import {
-  AppleIcon,
-  CommandLineIcon,
-  WindowsOldIcon,
-} from "@hugeicons/core-free-icons";
+"use client";
 
-export type DownloadPlatform = {
-  name: string;
-  icon: IconSvgElement;
-  detail: string;
-  url: string;
-  fileName?: string;
+import { ArrowUpRight01Icon, Download04Icon } from "@hugeicons/core-free-icons";
+import Link from "next/link";
+import type { ComponentType, SVGProps } from "react";
+import { useSyncExternalStore } from "react";
+import { AppleLogo, TerminalLogo, WindowsLogo } from "@/components/brand-icons";
+import Icon from "@/components/icon";
+
+type Os = "macOS" | "Windows" | "Linux";
+
+export type DownloadFile = { label: string; url: string };
+
+export type DownloadGroup = {
+  os: Os;
+  rows: { arch: string; requirement: string; files: DownloadFile[] }[];
 };
 
 type DownloadContentProps = {
-  platforms: DownloadPlatform[];
+  groups: DownloadGroup[];
   releaseUrl: string;
   version?: string;
   publishedAt?: string;
 };
 
-export const PLATFORM_ICONS = {
-  linux: CommandLineIcon,
-  macos: AppleIcon,
-  windows: WindowsOldIcon,
-} satisfies Record<string, IconSvgElement>;
-
-const BRAND_ICON_MAP: Record<string, ComponentType<SVGProps<SVGSVGElement> & { size?: number }>> = {
-  macOS: AppleLogo,
+const OS_ICONS: Record<Os, ComponentType<SVGProps<SVGSVGElement> & { size?: number }>> = {
+  Linux: TerminalLogo,
   Windows: WindowsLogo,
+  macOS: AppleLogo,
 };
 
-function getBrandIcon(name: string) {
-  if (name.toLowerCase().includes("macos")) return AppleLogo;
-  if (name.toLowerCase().includes("windows")) return WindowsLogo;
-  if (name.toLowerCase().includes("linux")) return TerminalLogo;
-  return TerminalLogo;
+function detectOs(): Os | null {
+  const agent = navigator.userAgent;
+  if (/Mac/i.test(agent) && !/iPhone|iPad/i.test(agent)) return "macOS";
+  if (/Windows/i.test(agent)) return "Windows";
+  if (/Linux/i.test(agent) && !/Android/i.test(agent)) return "Linux";
+  return null;
 }
 
+const subscribeToNothing = () => () => {};
+
+const PILL =
+  "inline-flex h-9 items-center justify-center gap-2 rounded-full px-4 text-[13px] font-medium transition-colors";
+
 export default function DownloadContent({
-  platforms,
+  groups,
   releaseUrl,
   version,
   publishedAt,
 }: DownloadContentProps) {
-  const publishedLabel = publishedAt
+  const os = useSyncExternalStore(subscribeToNothing, detectOs, () => null);
+  const published = publishedAt
     ? new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(
         new Date(publishedAt),
       )
     : null;
+  const recommended = os
+    ? groups.find((group) => group.os === os)?.rows[0]?.files[0]
+    : undefined;
+  const RecommendedIcon = os ? OS_ICONS[os] : null;
 
   return (
-    <div className="mx-auto max-w-[960px] min-h-[calc(100vh-7rem)] px-6 pt-16 pb-10 sm:pt-20">
-      <div className="flex items-baseline justify-between mb-6">
-        <div>
-          <h1 className="text-lg font-medium sm:text-xl">
-            Download Sentinel
-          </h1>
-          <p className="mt-0.5 text-[12px] text-fd-muted-foreground">
-            Installers from the latest GitHub release.
+    <div className="mx-auto max-w-[1200px] px-5 pt-16 pb-24 sm:px-8 sm:pt-28 sm:pb-32">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+        <h1 className="text-[2.75rem] leading-[1.02] font-medium tracking-[-0.035em] sm:text-[4.25rem]">
+          Download
+          <br />
+          Sentinel.
+        </h1>
+        <div className="lg:pb-2">
+          <p className="text-[16px] leading-relaxed text-fd-muted-foreground">
+            Free for macOS, Windows and Linux.
+            {version ? (
+              <>
+                <br />
+                <span className="text-fd-foreground">{version}</span>
+                {published ? ` · ${published}` : null}
+              </>
+            ) : null}
           </p>
-          <p className="mt-0.5 text-[11px] text-fd-muted-foreground/60">
-            macOS 13 or later · 64-bit Windows 10 or later · Linux with glibc
-            2.34
-          </p>
-        </div>
-        {version || publishedLabel ? (
-          <p className="text-[10px] text-fd-muted-foreground/35">
-            {version ?? "Latest"}
-            {publishedLabel ? ` · ${publishedLabel}` : null}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
-        {platforms.map((platform) => {
-          const BrandIcon = getBrandIcon(platform.name);
-          return (
+          <div className="mt-6 flex flex-wrap gap-2">
+            {recommended && os ? (
+              <a
+                href={recommended.url}
+                className={`${PILL} bg-fd-primary text-fd-primary-foreground hover:bg-fd-primary/85`}
+              >
+                {RecommendedIcon ? <RecommendedIcon size={13} /> : null}
+                Download for {os}
+              </a>
+            ) : null}
             <a
-              key={platform.name}
-              href={platform.url}
+              href={releaseUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 rounded-lg border border-fd-border bg-fd-card px-3 py-2.5 transition-colors hover:bg-fd-accent"
+              className={`${PILL} bg-fd-accent text-fd-foreground hover:bg-fd-muted`}
             >
-              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-fd-border bg-fd-background">
-                <BrandIcon size={13} className="text-fd-muted-foreground" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[12px] font-medium">
-                  {platform.name}
-                </p>
-                <p className="text-[10px] text-fd-muted-foreground">
-                  {platform.detail}
-                </p>
-              </div>
-              <Icon
-                icon={Download04Icon}
-                size={13}
-                strokeWidth={1.5}
-                className="shrink-0 text-fd-muted-foreground/25 transition-colors group-hover:text-fd-foreground"
-              />
+              Release notes
+              <Icon icon={ArrowUpRight01Icon} size={13} />
             </a>
-          );
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-16 overflow-hidden rounded-xl border border-fd-border bg-fd-card sm:mt-20">
+        {groups.map((group) => {
+          const OsIcon = OS_ICONS[group.os];
+          return group.rows.map((row, index) => (
+            <div
+              key={`${group.os}-${row.arch}`}
+              className="flex flex-col gap-3 border-b border-fd-border px-5 py-4 last:border-b-0 sm:grid sm:grid-cols-[180px_minmax(0,1fr)_auto] sm:items-center sm:gap-x-4 sm:px-6"
+            >
+              <div
+                className={`items-center gap-2.5 text-[14px] font-medium ${index === 0 ? "flex" : "hidden sm:flex"}`}
+              >
+                {index === 0 ? (
+                  <>
+                    <OsIcon size={15} className="shrink-0" />
+                    {group.os}
+                  </>
+                ) : (
+                  <span className="sr-only">{group.os}</span>
+                )}
+              </div>
+              <div className="text-[13.5px]">
+                <span className="text-fd-foreground">{row.arch}</span>
+                <span className="text-fd-muted-foreground"> · {row.requirement}</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 sm:justify-end">
+                {row.files.length > 0 ? (
+                  row.files.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.url}
+                      className="inline-flex h-8 items-center gap-1.5 rounded-full bg-fd-accent px-3.5 text-[12.5px] font-medium transition-colors hover:bg-fd-muted"
+                    >
+                      <Icon icon={Download04Icon} size={13} />
+                      {item.label}
+                    </a>
+                  ))
+                ) : (
+                  <a
+                    href={releaseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[12.5px] text-fd-muted-foreground hover:text-fd-foreground"
+                  >
+                    See the release
+                  </a>
+                )}
+              </div>
+            </div>
+          ));
         })}
       </div>
 
-      <div className="mt-4">
-        <a
-          href={releaseUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-[11px] text-fd-muted-foreground/35 transition-colors hover:text-fd-muted-foreground"
+      <p className="mt-6 text-[13px] text-fd-muted-foreground">
+        Sentinel updates itself in the background. Agents run on your own
+        accounts; see{" "}
+        <Link
+          href="/docs/getting-started/install"
+          className="text-fd-foreground underline-offset-4 hover:underline"
         >
-          All releases on GitHub
-          <Icon icon={ArrowUpRight01Icon} size={10} strokeWidth={1.8} />
-        </a>
-      </div>
+          installation
+        </Link>{" "}
+        for setup.
+      </p>
     </div>
   );
 }

@@ -34,34 +34,23 @@ const AGENTS: Agent[] = [
   { name: "ACP Registry", Icon: AcpLogo },
 ];
 
-function AgentRow({ hidden }: { hidden?: boolean }) {
-  return (
-    <ul className="flex shrink-0 items-center gap-12 pr-12" aria-hidden={hidden}>
-      {AGENTS.map(({ name, Icon }) => (
-        <li
-          key={name}
-          className="flex items-center gap-2.5 text-[15px] font-medium whitespace-nowrap text-fd-muted-foreground"
-        >
-          <Icon size={18} className="shrink-0" />
-          {name}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 export default function HomeAgents() {
   return (
-    <section className="mx-auto max-w-[1120px] px-5 pt-20 sm:px-8 sm:pt-28">
-      <p className="text-center text-[13px] text-fd-muted-foreground">
-        Works with the agents you already use, on your own accounts
+    <section className="mx-auto max-w-[1200px] px-5 pt-24 sm:px-8 sm:pt-32">
+      <p className="text-[13px] text-fd-muted-foreground">
+        Works with the agents you already use, on your own accounts.
       </p>
-      <div className="landing-marquee-mask mt-8 overflow-hidden">
-        <div className="landing-marquee flex w-max">
-          <AgentRow />
-          <AgentRow hidden />
-        </div>
-      </div>
+      <ul className="mt-6 grid grid-cols-2 border-t border-l border-fd-border sm:grid-cols-4 lg:grid-cols-6">
+        {AGENTS.map(({ name, Icon }) => (
+          <li
+            key={name}
+            className="flex h-16 items-center gap-2.5 border-r border-b border-fd-border px-5 text-[13.5px] text-fd-muted-foreground"
+          >
+            <Icon size={15} className="shrink-0 text-fd-foreground" />
+            {name}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

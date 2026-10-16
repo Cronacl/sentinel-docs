@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import DownloadContent, {
-  PLATFORM_ICONS,
-  type DownloadPlatform,
+  type DownloadFile,
+  type DownloadGroup,
 } from "@/components/download-content";
 
 export const metadata: Metadata = {
@@ -36,26 +36,6 @@ function pickAsset(
   return assets.find(predicate);
 }
 
-function getAssetLabel(assetName: string, fallback: string) {
-  const lowerName = assetName.toLowerCase();
-
-  if (lowerName.includes("arm64")) {
-    return `ARM64 ${fallback}`;
-  }
-
-  if (
-    lowerName.includes("x64") ||
-    lowerName.includes("x86_64") ||
-    lowerName.includes("amd64") ||
-    (lowerName.endsWith(".appimage") &&
-      !lowerName.includes("arm64") &&
-      !lowerName.includes("aarch64"))
-  ) {
-    return `x64 ${fallback}`;
-  }
-
-  return fallback;
-}
 
 function matchesArch(assetName: string, arch: "arm64" | "x64") {
   const lowerName = assetName.toLowerCase();
@@ -118,12 +98,6 @@ function hasRequiredInstallerAssets(release: GitHubRelease) {
   );
 }
 
-function getPlatformAssetLabel(
-  asset: GitHubReleaseAsset | null | undefined,
-  fallback: string,
-) {
-  return asset ? getAssetLabel(asset.name, fallback) : "Latest release";
-}
 
 async function fetchGitHubRelease(url: string) {
   const response = await fetch(url, {
@@ -166,78 +140,73 @@ async function getLatestRelease() {
   }
 }
 
-function getPlatforms(release: GitHubRelease | null): DownloadPlatform[] {
-  const macAsset =
-    pickReleaseAsset(release, ".dmg", "arm64") ??
-    pickReleaseAsset(release, ".dmg");
-  const windowsAsset =
-    pickReleaseAsset(release, ".exe", "x64") ??
-    pickReleaseAsset(release, ".exe");
-  const linuxX64AppImage = pickReleaseAsset(release, ".appimage", "x64");
-  const linuxAppImage = pickReleaseAsset(release, ".appimage");
-  const linuxX64AppImageAsset = linuxX64AppImage ?? linuxAppImage;
-  const linuxX64Deb = pickReleaseAsset(release, ".deb", "x64");
-  const linuxX64Rpm = pickReleaseAsset(release, ".rpm", "x64");
-  const linuxArm64AppImage = pickReleaseAsset(release, ".appimage", "arm64");
-  const linuxArm64Deb = pickReleaseAsset(release, ".deb", "arm64");
-  const linuxArm64Rpm = pickReleaseAsset(release, ".rpm", "arm64");
+function file(
+  release: GitHubRelease | null,
+  label: string,
+  extension: string,
+  arch?: "arm64" | "x64",
+): DownloadFile | null {
+  const asset = pickReleaseAsset(release, extension, arch);
+  return asset ? { label, url: asset.browser_download_url } : null;
+}
+
+function present<T>(items: (T | null)[]): T[] {
+  return items.filter((item): item is T => item !== null);
+}
+
+function getGroups(release: GitHubRelease | null): DownloadGroup[] {
+  const linuxX64AppImage =
+    file(release, "AppImage", ".appimage", "x64") ??
+    file(release, "AppImage", ".appimage");
 
   return [
     {
-      name: "macOS",
-      icon: PLATFORM_ICONS.macos,
-      detail: getPlatformAssetLabel(macAsset, "DMG installer"),
-      fileName: macAsset?.name,
-      url: macAsset?.browser_download_url ?? GITHUB_RELEASES_URL,
+      os: "macOS",
+      rows: [
+        {
+          arch: "Apple silicon",
+          files: present([
+            file(release, "DMG", ".dmg", "arm64") ?? file(release, "DMG", ".dmg"),
+          ]),
+          requirement: "macOS 13 or later",
+        },
+      ],
     },
     {
-      name: "Windows",
-      icon: PLATFORM_ICONS.windows,
-      detail: getPlatformAssetLabel(windowsAsset, "EXE installer"),
-      fileName: windowsAsset?.name,
-      url: windowsAsset?.browser_download_url ?? GITHUB_RELEASES_URL,
+      os: "Windows",
+      rows: [
+        {
+          arch: "x64",
+          files: present([
+            file(release, "Installer", ".exe", "x64") ??
+              file(release, "Installer", ".exe"),
+          ]),
+          requirement: "Windows 10 or later",
+        },
+      ],
     },
     {
-      name: "Linux x64 AppImage",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxX64AppImageAsset, "AppImage"),
-      fileName: linuxX64AppImageAsset?.name,
-      url: linuxX64AppImageAsset?.browser_download_url ?? GITHUB_RELEASES_URL,
-    },
-    {
-      name: "Linux x64 DEB",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxX64Deb, "DEB package"),
-      fileName: linuxX64Deb?.name,
-      url: linuxX64Deb?.browser_download_url ?? GITHUB_RELEASES_URL,
-    },
-    {
-      name: "Linux x64 RPM",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxX64Rpm, "RPM package"),
-      fileName: linuxX64Rpm?.name,
-      url: linuxX64Rpm?.browser_download_url ?? GITHUB_RELEASES_URL,
-    },
-    {
-      name: "Linux arm64 AppImage",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxArm64AppImage, "AppImage"),
-      fileName: linuxArm64AppImage?.name,
-      url: linuxArm64AppImage?.browser_download_url ?? GITHUB_RELEASES_URL,
-    },
-    {
-      name: "Linux arm64 DEB",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxArm64Deb, "DEB package"),
-      fileName: linuxArm64Deb?.name,
-      url: linuxArm64Deb?.browser_download_url ?? GITHUB_RELEASES_URL,
-    },
-    {
-      name: "Linux arm64 RPM",
-      icon: PLATFORM_ICONS.linux,
-      detail: getPlatformAssetLabel(linuxArm64Rpm, "RPM package"),
-      fileName: linuxArm64Rpm?.name,
-      url: linuxArm64Rpm?.browser_download_url ?? GITHUB_RELEASES_URL,
+      os: "Linux",
+      rows: [
+        {
+          arch: "x64",
+          files: present([
+            linuxX64AppImage,
+            file(release, "DEB", ".deb", "x64"),
+            file(release, "RPM", ".rpm", "x64"),
+          ]),
+          requirement: "glibc 2.34 or later",
+        },
+        {
+          arch: "arm64",
+          files: present([
+            file(release, "AppImage", ".appimage", "arm64"),
+            file(release, "DEB", ".deb", "arm64"),
+            file(release, "RPM", ".rpm", "arm64"),
+          ]),
+          requirement: "glibc 2.34 or later",
+        },
+      ],
     },
   ];
 }
@@ -247,9 +216,9 @@ export default async function DownloadPage() {
 
   return (
     <DownloadContent
-      platforms={getPlatforms(release)}
+      groups={getGroups(release)}
       releaseUrl={release?.html_url ?? GITHUB_RELEASES_URL}
-      version={release?.name ?? release?.tag_name}
+      version={release?.tag_name ?? release?.name}
       publishedAt={release?.published_at}
     />
   );

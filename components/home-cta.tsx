@@ -1,35 +1,25 @@
-import Link from "next/link";
-import { Canvas } from "@/components/landing/shot";
-import { SentinelLogoMark } from "@/components/sentinel-logo";
+import { PrimaryButton, SecondaryButton } from "@/components/landing/buttons";
 
 export default function HomeCTA() {
   return (
-    <section className="mx-auto max-w-[1120px] px-5 pt-28 pb-24 sm:px-8 sm:pt-40 sm:pb-32">
-      <Canvas className="px-6 py-20 text-center sm:py-28">
-        <SentinelLogoMark
-          className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 text-fd-foreground opacity-[0.04]"
-        />
-        <h2 className="font-display-serif mx-auto max-w-[620px] text-[2.4rem] leading-[1.02] text-balance sm:text-[3.6rem]">
-          Put your agents to work.
+    <section className="mx-auto max-w-[1200px] px-5 pt-24 pb-24 sm:px-8 sm:pt-36 sm:pb-32">
+      <div className="grid gap-6 border-t border-fd-border pt-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-16">
+        <h2 className="text-[2rem] leading-[1.08] font-medium tracking-[-0.03em] text-balance sm:text-[2.6rem]">
+          Bring the agents you already have.
         </h2>
-        <p className="mx-auto mt-4 max-w-[460px] text-[15px] leading-relaxed text-balance text-fd-muted-foreground">
-          Free to download. Bring the agents and accounts you already have.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
-          <Link
-            href="/download"
-            className="inline-flex h-10 items-center rounded-full bg-fd-foreground px-5 text-[13px] font-medium text-fd-background transition-opacity hover:opacity-85"
-          >
-            Download Sentinel
-          </Link>
-          <Link
-            href="/docs/getting-started/quickstart"
-            className="inline-flex h-10 items-center rounded-full border border-fd-border bg-fd-background/60 px-5 text-[13px] font-medium backdrop-blur transition-colors hover:bg-fd-accent"
-          >
-            Quickstart
-          </Link>
+        <div className="lg:self-end">
+          <p className="max-w-[420px] text-[16px] leading-relaxed text-fd-muted-foreground">
+            Free for macOS, Windows and Linux. Sign in with your own accounts
+            and keys.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <PrimaryButton href="/download">Download Sentinel</PrimaryButton>
+            <SecondaryButton href="/docs/getting-started/quickstart">
+              Quickstart
+            </SecondaryButton>
+          </div>
         </div>
-      </Canvas>
+      </div>
     </section>
   );
 }
