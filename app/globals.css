@@ -223,3 +223,83 @@
   font-size: 0.95rem;
   line-height: 1.5;
 }
+
+/* Landing page */
+
+.font-display-serif {
+  font-family: var(--font-millionaire), ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-feature-settings: "kern", "liga";
+}
+
+/* A quiet grayscale backdrop with film grain for product shots. */
+.landing-canvas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 15% 0%, rgb(255 255 255 / 0.9), transparent 55%),
+    radial-gradient(90% 80% at 100% 100%, rgb(0 0 0 / 0.08), transparent 60%),
+    linear-gradient(160deg, #ececec, #d9d9d9);
+}
+
+.dark .landing-canvas {
+  background:
+    radial-gradient(120% 90% at 15% 0%, rgb(255 255 255 / 0.16), transparent 55%),
+    radial-gradient(90% 80% at 100% 100%, rgb(255 255 255 / 0.05), transparent 60%),
+    linear-gradient(160deg, #2a2a2a, #121212);
+}
+
+.landing-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.dark .landing-canvas::after {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.landing-shot {
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.08),
+    0 2px 4px rgb(0 0 0 / 0.04),
+    0 24px 60px -12px rgb(0 0 0 / 0.25);
+}
+
+.dark .landing-shot {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 24px 60px -12px rgb(0 0 0 / 0.7);
+}
+
+@keyframes landing-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.landing-marquee {
+  animation: landing-marquee 40s linear infinite;
+}
+
+.landing-marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-marquee {
+    animation: none;
+  }
+}
